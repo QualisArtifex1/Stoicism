@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stoicism with Marcus Aurelius</title>
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="hero hero-index">
+        <h1>Stoicism with Marcus Aurelius</h1>
+        <nav>
+            <a href="index.html" class="current">Home</a>
+            <a href="meditations.html">Read the Text</a>
+            <a href="lessons.html">Lessons</a>
+        </nav>
+    </header>
+    <main class="content">
+        <section>
+            <p class="intro">Welcome to a journey through Stoicism, guided by the timeless wisdom of Roman emperor and philosopher Marcus Aurelius.  This site collects the complete English translation of the <em>Meditations</em> and offers lessons designed to help you reflect on its teachings and apply them to modern life.  Whether you are new to Stoicism or seeking to deepen your practice, we invite you to explore.</p>
+        </section>
+        <section class="quote-container" id="dailyQuote">
+            <!-- Daily quote will be inserted here by script.js -->
+            <div class="quote-text"></div>
+            <div class="quote-author"></div>
+            <!-- Button to fetch a new random quote for interactivity -->
+            <button type="button" class="quote-button" id="newQuoteBtn">Show another quote</button>
+        </section>
+        <!-- Weekly lesson will be populated by script.js -->
+        <section class="weekly-lesson" id="weeklyLesson">
+            <h2>Weekly Lesson</h2>
+            <blockquote class="weekly-quote"></blockquote>
+            <p class="weekly-theme"></p>
+            <p class="weekly-summary"></p>
+            <!-- Button to toggle the visibility of the reflection summary -->
+            <button type="button" class="lesson-toggle-button" id="toggleSummaryBtn">Show Reflection</button>
+        </section>
+        <!-- Core Stoic principles section -->
+        <section class="principles">
+            <h2>Stoic Principles</h2>
+            <ul>
+                <li><strong>Only Virtue is Good:</strong> character and wisdom are the only true goods; externals like wealth and health are indifferent.</li>
+                <li><strong>Dichotomy of Control:</strong> distinguish between what you can control—your thoughts and actions—and what you cannot. Let go of the rest.</li>
+                <li><strong>Live According to Nature:</strong> fulfil your role in the universe by cooperating with others and acting rationally.</li>
+                <li><strong>Impermanence:</strong> everything changes and passes away; remembering this reduces attachment and anxiety.</li>
+            </ul>
+        </section>
+        <!-- Stoic challenge section to engage visitors -->
+        <section class="challenge">
+            <h2>Stoic Challenge</h2>
+            <p id="challengeText"></p>
+            <button type="button" id="newChallengeBtn" class="challenge-button">Another Challenge</button>
+        </section>
+
+        <!-- Journal section for visitors to record their reflections -->
+        <section class="journal">
+            <h2>My Reflection</h2>
+            <textarea id="reflectionText" placeholder="Write your thoughts on this week’s lesson..."></textarea>
+            <button type="button" id="saveReflectionBtn" class="reflection-button">Save Reflection</button>
+            <p id="saveMessage" class="save-message"></p>
+        </section>
+
+    </main>
+    <footer>
+        <p>&copy; 2025 Stoic Web App.  Content compiled from public‑domain sources for educational use.</p>
+    </footer>
+    <script src="script.js"></script>
+</body>
+</html>
