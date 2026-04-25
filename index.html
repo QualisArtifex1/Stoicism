@@ -1,70 +1,477 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Stoicism with Marcus Aurelius</title>
-    <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-    <header class="hero hero-index">
-        <h1>Stoicism with Marcus Aurelius</h1>
-        <nav>
-            <a href="index.html" class="current">Home</a>
-            <a href="meditations.html">Read the Text</a>
-            <a href="lessons.html">Lessons</a>
-        </nav>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Stoic Explorium</title>
+    <!-- Google fonts for a classical feel -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Playfair+Display:wght@400;700&family=Open+Sans:wght@300;400;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header>
+      <div class="logo-and-title">
+        <img src="images/stoicism-poster.png" alt="Stoicism poster" class="poster-thumbnail" />
+        <h1>Stoic Explorium</h1>
+      </div>
+      <nav>
+        <ul>
+          <li><a href="#what-is-stoicism">What is Stoicism?</a></li>
+          <li><a href="#virtues">Virtues</a></li>
+          <li><a href="#philosophers">Philosophers</a></li>
+          <li><a href="#meditations">Meditations</a></li>
+          <li><a href="#library">Library</a></li>
+          <li><a href="#map">Places</a></li>
+          <li><a href="#scavenger">Scavenger Hunt</a></li>
+          <li><a href="#activities">Activities</a></li>
+          <li><a href="#exercises">Exercises</a></li>
+          <li><a href="#scramble">Word Scramble</a></li>
+        </ul>
+      </nav>
     </header>
-    <main class="content">
-        <section>
-            <p class="intro">Welcome to a journey through Stoicism, guided by the timeless wisdom of Roman emperor and philosopher Marcus Aurelius.  This site collects the complete English translation of the <em>Meditations</em> and offers lessons designed to help you reflect on its teachings and apply them to modern life.  Whether you are new to Stoicism or seeking to deepen your practice, we invite you to explore.</p>
-        </section>
-        <section class="quote-container" id="dailyQuote">
-            <!-- Daily quote will be inserted here by script.js -->
-            <div class="quote-text"></div>
-            <div class="quote-author"></div>
-            <!-- Button to fetch a new random quote for interactivity -->
-            <button type="button" class="quote-button" id="newQuoteBtn">Show another quote</button>
-        </section>
-        <!-- Weekly lesson will be populated by script.js -->
-        <section class="weekly-lesson" id="weeklyLesson">
-            <h2>Weekly Lesson</h2>
-            <blockquote class="weekly-quote"></blockquote>
-            <p class="weekly-theme"></p>
-            <p class="weekly-summary"></p>
-            <!-- Button to toggle the visibility of the reflection summary -->
-            <button type="button" class="lesson-toggle-button" id="toggleSummaryBtn">Show Reflection</button>
-        </section>
-        <!-- Core Stoic principles section -->
-        <section class="principles">
-            <h2>Stoic Principles</h2>
-            <ul>
-                <li><strong>Only Virtue is Good:</strong> character and wisdom are the only true goods; externals like wealth and health are indifferent.</li>
-                <li><strong>Dichotomy of Control:</strong> distinguish between what you can control—your thoughts and actions—and what you cannot. Let go of the rest.</li>
-                <li><strong>Live According to Nature:</strong> fulfil your role in the universe by cooperating with others and acting rationally.</li>
-                <li><strong>Impermanence:</strong> everything changes and passes away; remembering this reduces attachment and anxiety.</li>
-            </ul>
-        </section>
-        <!-- Stoic challenge section to engage visitors -->
-        <section class="challenge">
-            <h2>Stoic Challenge</h2>
-            <p id="challengeText"></p>
-            <button type="button" id="newChallengeBtn" class="challenge-button">Another Challenge</button>
-        </section>
 
-        <!-- Journal section for visitors to record their reflections -->
-        <section class="journal">
-            <h2>My Reflection</h2>
-            <textarea id="reflectionText" placeholder="Write your thoughts on this week’s lesson..."></textarea>
-            <button type="button" id="saveReflectionBtn" class="reflection-button">Save Reflection</button>
-            <p id="saveMessage" class="save-message"></p>
-        </section>
+    <main>
+      <!-- Hero Section -->
+      <section id="hero" class="hero">
+        <div class="hero-content">
+          <h2>Discover the Art of Living</h2>
+          <p>
+            Welcome to a digital temple of Stoicism. Here you can wander through
+            history, explore teachings and virtues, engage with interactive
+            activities, and reflect on timeless wisdom. Start your journey
+            below.
+          </p>
+          <a href="#what-is-stoicism" class="cta-button">Begin Exploring</a>
+        </div>
+      </section>
+
+      <!-- What is Stoicism? -->
+      <section id="what-is-stoicism" class="section">
+        <h2>What is Stoicism?</h2>
+        <p>
+          Stoicism is an ancient Greek philosophy that teaches us to live in
+          harmony with nature and reason, cultivating inner peace through
+          self‑discipline and virtue. The early Stoics believed that the goal
+          of life is to live in agreement with nature and that virtue is the
+          only true good. Humans are unique in the animal kingdom because of
+          our rationality, and it is through the proper use of reason that we
+          achieve a flourishing life. Throughout Roman times, Stoicism inspired
+          thinkers like Seneca, Epictetus and Emperor Marcus Aurelius.
+        </p>
+        <div class="interactive-cards">
+          <div class="card" data-card="nature">
+            <h3>Living in Agreement with Nature</h3>
+            <p class="summary">
+              Click to learn how Stoics saw Nature as a rational, ordered
+              cosmos.
+            </p>
+            <div class="card-content hidden">
+              <p>
+                The Stoics held that the universe is a well‑ordered system
+                governed by divine reason or logos. Living in agreement with
+                nature means aligning your will with the rational order of the
+                cosmos and accepting that events are fated. By
+                understanding our place in the universe and that everything
+                happens for a reason, we cultivate tranquility and resilience.
+              </p>
+            </div>
+          </div>
+          <div class="card" data-card="virtue-only-good">
+            <h3>Virtue Is the Only Good</h3>
+            <p class="summary">
+              Click to learn why Stoics believed that virtue alone is
+              sufficient for happiness.
+            </p>
+            <div class="card-content hidden">
+              <p>
+                According to Stoicism, external things such as wealth, health,
+                and reputation are indifferent: they are neither good nor bad in
+                themselves. Virtue—acting according to reason and fulfilling
+                one’s duties—is the only thing that truly matters and is both
+                necessary and sufficient for happiness.
+              </p>
+            </div>
+          </div>
+          <div class="card" data-card="passions">
+            <h3>Transforming the Passions</h3>
+            <p class="summary">
+              Click to see how Stoics managed emotions and transformed
+              passions.
+            </p>
+            <div class="card-content hidden">
+              <p>
+                The Stoics classified irrational emotions or passions into four
+                types—distress, fear, appetite, and pleasure—and taught that
+                these disturbances arise from misguided judgments.
+                Instead of suppressing feelings, the sage cultivates three
+                ‘good states’: joy, caution and wish, which are rational and
+                aligned with nature.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Virtues Section -->
+      <section id="virtues" class="section light">
+        <h2>The Four Cardinal Virtues</h2>
+        <p>
+          Stoic ethics teaches that wisdom, justice, courage and moderation are
+          unified virtues. To possess one fully is to embody them all.
+        </p>
+        <div class="virtue-grid">
+          <div class="virtue" data-virtue="wisdom">
+            <h3>Wisdom</h3>
+            <p>Good sense, intelligence and practical reason.</p>
+          </div>
+          <div class="virtue" data-virtue="justice">
+            <h3>Justice</h3>
+            <p>Fairness, honesty and doing right by others.</p>
+          </div>
+          <div class="virtue" data-virtue="courage">
+            <h3>Courage</h3>
+            <p>Fortitude in adversity and facing fears.</p>
+          </div>
+          <div class="virtue" data-virtue="temperance">
+            <h3>Temperance</h3>
+            <p>Self‑control and moderation in all things.</p>
+          </div>
+        </div>
+        <div id="virtue-detail" class="virtue-detail hidden">
+          <button class="close-detail">×</button>
+          <h3 id="virtue-name"></h3>
+          <p id="virtue-description"></p>
+        </div>
+      </section>
+
+      <!-- Philosophers Timeline Section -->
+      <section id="philosophers" class="section">
+        <h2>Philosophers &amp; History</h2>
+        <p>
+          Explore an interactive timeline of Stoicism’s founders and key figures.
+        </p>
+        <div class="timeline">
+          <div class="timeline-item" data-year="300" data-philosopher="Zeno of Citium">
+            <span class="year">c. 300 BCE</span>
+            <h3>Zeno of Citium</h3>
+            <p class="hidden">
+              Zeno founded the Stoic school around 300 BCE in Athens.
+              He taught on the Stoa Poikile and emphasized living according to nature.
+            </p>
+          </div>
+          <div class="timeline-item" data-year="280" data-philosopher="Cleanthes">
+            <span class="year">c. 280 BCE</span>
+            <h3>Cleanthes</h3>
+            <p class="hidden">
+              Succeeding Zeno, Cleanthes led the school and composed hymns to Zeus.
+            </p>
+          </div>
+          <div class="timeline-item" data-year="230" data-philosopher="Chrysippus">
+            <span class="year">c. 230 BCE</span>
+            <h3>Chrysippus</h3>
+            <p class="hidden">
+              Chrysippus, the third head of the Stoa, systematized Stoic logic
+              and ethics. Despite his prolific writings,
+              only fragments remain.
+            </p>
+          </div>
+          <div class="timeline-item" data-year="50" data-philosopher="Seneca">
+            <span class="year">c. 50 CE</span>
+            <h3>Seneca</h3>
+            <p class="hidden">
+              A Roman statesman and playwright, Seneca popularized Stoicism in
+              his letters and essays and advised Nero. He
+              reminded us that “We suffer more often in imagination than in
+              reality”.
+            </p>
+          </div>
+          <div class="timeline-item" data-year="90" data-philosopher="Epictetus">
+            <span class="year">c. 90 CE</span>
+            <h3>Epictetus</h3>
+            <p class="hidden">
+              Born a slave, Epictetus taught that while we cannot control external
+              events, we can control how we respond. He was expelled from Rome
+              and taught in Nicopolis, influencing later Stoics.
+            </p>
+          </div>
+          <div class="timeline-item" data-year="170" data-philosopher="Marcus Aurelius">
+            <span class="year">c. 170 CE</span>
+            <h3>Marcus Aurelius</h3>
+            <p class="hidden">
+              Emperor of Rome from 161–180 CE, Marcus Aurelius penned his
+              <em>Meditations</em> as private notes to himself. His writings
+              remain a timeless guide to inner strength and virtue.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Meditations Section -->
+      <section id="meditations" class="section light">
+        <h2>Marcus Aurelius’ Meditations</h2>
+        <p>
+          Below you’ll find randomly selected excerpts from Marcus Aurelius’
+          <em>Meditations</em>. Click the button to reveal another thought.
+        </p>
+        <div class="quote-container">
+          <blockquote id="quote-display">
+            <!-- Random quote inserted by JS -->
+          </blockquote>
+          <button id="new-quote" class="cta-button">New Quote</button>
+        </div>
+      </section>
+
+      <!-- Activities Section -->
+      <section id="activities" class="section">
+        <h2>Activities &amp; Games</h2>
+        <p>Put Stoic principles into practice with these interactive activities.</p>
+        <div class="activity-cards">
+          <div class="activity-card" id="start-quiz">
+            <h3>Stoic Quiz</h3>
+            <p>Test your knowledge with a multiple‑choice quiz.</p>
+          </div>
+          <div class="activity-card" id="start-memory">
+            <h3>Memory Match</h3>
+            <p>Match Stoic concepts in a classic memory game.</p>
+          </div>
+        </div>
+        <div id="quiz-modal" class="modal hidden">
+          <div class="modal-content">
+            <button class="close-modal">×</button>
+            <h3>Stoic Quiz</h3>
+            <div id="quiz-question"></div>
+            <div id="quiz-options"></div>
+            <div id="quiz-feedback"></div>
+            <button id="next-question" class="cta-button">Next</button>
+          </div>
+        </div>
+        <div id="memory-modal" class="modal hidden">
+          <div class="modal-content memory-game">
+            <button class="close-modal">×</button>
+            <h3>Memory Match</h3>
+            <p>Find all the matching pairs to win.</p>
+            <div id="memory-grid" class="memory-grid"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Stoic Library Section -->
+      <section id="library" class="section light">
+        <h2>The Stoic Library</h2>
+        <p>Click on any scroll to reveal a nugget of wisdom from ancient Stoics.</p>
+        <div class="library-grid">
+          <div class="scroll" data-index="0"><span>Scroll 1</span></div>
+          <div class="scroll" data-index="1"><span>Scroll 2</span></div>
+          <div class="scroll" data-index="2"><span>Scroll 3</span></div>
+          <div class="scroll" data-index="3"><span>Scroll 4</span></div>
+          <div class="scroll" data-index="4"><span>Scroll 5</span></div>
+          <div class="scroll" data-index="5"><span>Scroll 6</span></div>
+          <div class="scroll" data-index="6"><span>Scroll 7</span></div>
+          <div class="scroll" data-index="7"><span>Scroll 8</span></div>
+          <div class="scroll" data-index="8"><span>Scroll 9</span></div>
+          <div class="scroll" data-index="9"><span>Scroll 10</span></div>
+          <div class="scroll" data-index="10"><span>Scroll 11</span></div>
+          <div class="scroll" data-index="11"><span>Scroll 12</span></div>
+          <div class="scroll" data-index="12"><span>Scroll 13</span></div>
+          <div class="scroll" data-index="13"><span>Scroll 14</span></div>
+          <div class="scroll" data-index="14"><span>Scroll 15</span></div>
+          <div class="scroll" data-index="15"><span>Scroll 16</span></div>
+          <div class="scroll" data-index="16"><span>Scroll 17</span></div>
+          <div class="scroll" data-index="17"><span>Scroll 18</span></div>
+          <div class="scroll" data-index="18"><span>Scroll 19</span></div>
+          <div class="scroll" data-index="19"><span>Scroll 20</span></div>
+        </div>
+        <div id="quote-modal" class="modal hidden">
+          <div class="modal-content">
+            <button class="close-modal">×</button>
+            <p id="library-quote"></p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Stoic Places Section -->
+      <section id="map" class="section">
+        <h2>Stoic Places</h2>
+        <p>Explore the geography of Stoicism—from the painted porch in Athens to the emperor’s camp.</p>
+        <div class="map-grid">
+          <div class="place" data-place="athens">
+            <h3>Athens</h3>
+            <p class="place-summary">Where it all began</p>
+          </div>
+          <div class="place" data-place="rome">
+            <h3>Rome</h3>
+            <p class="place-summary">Rise of Roman Stoics</p>
+          </div>
+          <div class="place" data-place="rhodes">
+            <h3>Rhodes</h3>
+            <p class="place-summary">Middle Stoa centre</p>
+          </div>
+          <div class="place" data-place="nicopolis">
+            <h3>Nicopolis</h3>
+            <p class="place-summary">Epictetus’ school</p>
+          </div>
+          <div class="place" data-place="carnuntum">
+            <h3>Carnuntum</h3>
+            <p class="place-summary">Meditations on the Danube</p>
+          </div>
+          <div class="place" data-place="citium">
+            <h3>Citium</h3>
+            <p class="place-summary">Birthplace of Zeno</p>
+          </div>
+          <div class="place" data-place="tarsus">
+            <h3>Tarsus</h3>
+            <p class="place-summary">Home of Athenodorus</p>
+          </div>
+          <div class="place" data-place="alexandria">
+            <h3>Alexandria</h3>
+            <p class="place-summary">Library & learning</p>
+          </div>
+        </div>
+        <div id="place-detail" class="place-detail hidden">
+          <button class="close-detail">×</button>
+          <h3 id="place-name"></h3>
+          <p id="place-description"></p>
+        </div>
+      </section>
+
+      <!-- Stoic Scavenger Hunt Section -->
+      <section id="scavenger" class="section light">
+        <h2>Stoic Scavenger Hunt</h2>
+        <p>Follow the clues below and type your answers to progress through the hunt. Each correct answer unlocks the next clue!</p>
+        <div class="hunt-step" id="hunt-step-1">
+          <p>Clue 1: This Stoic taught that some things are within our control and others not. Type his name:</p>
+          <input type="text" id="answer-1" />
+          <button class="hunt-submit" data-step="1">Submit</button>
+          <div class="hint" id="hint-1"></div>
+        </div>
+        <div class="hunt-step hidden" id="hunt-step-2">
+          <p>Clue 2: I led the Stoic school in Athens and introduced Stoicism to Rome, tempering its austerity. Who am I?</p>
+          <input type="text" id="answer-2" />
+          <button class="hunt-submit" data-step="2">Submit</button>
+          <div class="hint" id="hint-2"></div>
+        </div>
+        <div class="hunt-step hidden" id="hunt-step-3">
+          <p>Clue 3: Complete Marcus Aurelius’ advice: “Regulate every ______ and thought as if you might depart at any moment.”</p>
+          <input type="text" id="answer-3" />
+          <button class="hunt-submit" data-step="3">Submit</button>
+          <div class="hint" id="hint-3"></div>
+        </div>
+        <div class="hunt-step hidden" id="hunt-step-4">
+          <p>Clue 4: Seneca wrote, “It is not that we have a short time to live, but that we …” (finish the phrase)</p>
+          <input type="text" id="answer-4" />
+          <button class="hunt-submit" data-step="4">Submit</button>
+          <div class="hint" id="hint-4"></div>
+        </div>
+        <div class="hunt-step hidden" id="hunt-step-5">
+          <p>Final Clue: A secret message appears when you press a certain keyboard combination on this site. Type the two words you see at the top of the message.</p>
+          <input type="text" id="answer-5" />
+          <button class="hunt-submit" data-step="5">Submit</button>
+          <div class="hint" id="hint-5"></div>
+        </div>
+        <div class="hunt-step hidden" id="hunt-complete">
+          <h3>Congratulations!</h3>
+          <p>You’ve completed the Stoic scavenger hunt. The journey is the reward—keep exploring and practising Stoicism.</p>
+        </div>
+      </section>
+
+      <!-- Stoic Exercises Section -->
+      <section id="exercises" class="section">
+        <h2>Stoic Exercises</h2>
+        <p>Practise Stoicism daily with these reflective exercises. Click each card to flip it over and reveal a prompt.</p>
+        <div class="exercise-grid">
+          <div class="exercise-card" data-index="0">
+            <div class="front">Exercise 1</div>
+            <div class="back"></div>
+          </div>
+          <div class="exercise-card" data-index="1">
+            <div class="front">Exercise 2</div>
+            <div class="back"></div>
+          </div>
+          <div class="exercise-card" data-index="2">
+            <div class="front">Exercise 3</div>
+            <div class="back"></div>
+          </div>
+          <div class="exercise-card" data-index="3">
+            <div class="front">Exercise 4</div>
+            <div class="back"></div>
+          </div>
+          <div class="exercise-card" data-index="4">
+            <div class="front">Exercise 5</div>
+            <div class="back"></div>
+          </div>
+          <div class="exercise-card" data-index="5">
+            <div class="front">Exercise 6</div>
+            <div class="back"></div>
+          </div>
+          <div class="exercise-card" data-index="6">
+            <div class="front">Exercise 7</div>
+            <div class="back"></div>
+          </div>
+          <div class="exercise-card" data-index="7">
+            <div class="front">Exercise 8</div>
+            <div class="back"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Stoic Word Scramble Section -->
+      <section id="scramble" class="section light">
+        <h2>Stoic Word Scramble</h2>
+        <p>Unscramble the Stoic concepts below. Correct answers will unlock the next word!</p>
+        <div class="scramble-container">
+          <div class="scramble-step" id="scramble-step-1">
+            <p>Scrambled word 1: <strong>tueriv</strong></p>
+            <input type="text" id="scramble-answer-1" />
+            <button class="scramble-submit" data-step="1">Submit</button>
+            <div class="scramble-hint" id="scramble-hint-1"></div>
+          </div>
+          <div class="scramble-step hidden" id="scramble-step-2">
+            <p>Scrambled word 2: <strong>goslo</strong></p>
+            <input type="text" id="scramble-answer-2" />
+            <button class="scramble-submit" data-step="2">Submit</button>
+            <div class="scramble-hint" id="scramble-hint-2"></div>
+          </div>
+          <div class="scramble-step hidden" id="scramble-step-3">
+            <p>Scrambled word 3: <strong>aipatheea</strong></p>
+            <input type="text" id="scramble-answer-3" />
+            <button class="scramble-submit" data-step="3">Submit</button>
+            <div class="scramble-hint" id="scramble-hint-3"></div>
+          </div>
+          <div class="scramble-step hidden" id="scramble-step-4">
+            <p>Scrambled word 4: <strong>noaiudameia</strong></p>
+            <input type="text" id="scramble-answer-4" />
+            <button class="scramble-submit" data-step="4">Submit</button>
+            <div class="scramble-hint" id="scramble-hint-4"></div>
+          </div>
+          <div class="scramble-step hidden" id="scramble-step-5">
+            <p>Scrambled word 5: <strong>ismaypathe</strong></p>
+            <input type="text" id="scramble-answer-5" />
+            <button class="scramble-submit" data-step="5">Submit</button>
+            <div class="scramble-hint" id="scramble-hint-5"></div>
+          </div>
+          <div class="scramble-step hidden" id="scramble-complete">
+            <h3>Well done!</h3>
+            <p>You’ve unscrambled all the Stoic words. Remember: understanding the concepts is the first step to living them.</p>
+          </div>
+        </div>
+      </section>
 
     </main>
+
     <footer>
-        <p>&copy; 2025 Stoic Web App.  Content compiled from public‑domain sources for educational use.</p>
+      <p>
+        &copy; 2026 Stoic Explorium. This site was created as an educational
+        resource for students. Quotes are taken from Marcus Aurelius’
+        <em>Meditations</em> and Stoic scholarship. Hidden secrets and easter eggs
+        await those who explore.
+      </p>
     </footer>
+
     <script src="script.js"></script>
-</body>
+  </body>
 </html>
