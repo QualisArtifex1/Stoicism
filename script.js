@@ -7,17 +7,7 @@
 
 // Wait until DOM content is loaded
 window.addEventListener('DOMContentLoaded', () => {
-  // Hide the hero section when the user begins exploring
-  const heroSection = document.getElementById('hero');
-  const beginButton = document.querySelector('#hero .cta-button');
-  if (beginButton) {
-    beginButton.addEventListener('click', () => {
-      // remove the hero so it doesn’t linger at the top after scrolling
-      if (heroSection) {
-        heroSection.style.display = 'none';
-      }
-    });
-  }
+  // The hero section now contains only an image, so no need to hide it on click
   // Card toggles in "What is Stoicism" section
   document.querySelectorAll('.card').forEach(card => {
     card.addEventListener('click', () => {
@@ -404,6 +394,20 @@ window.addEventListener('DOMContentLoaded', () => {
     'Life is long, if you know how to use it.',
     'It does not matter how many books you have, but how good the ones you have are.',
     'Lead me, Zeus, and you, Fate, wherever you have assigned me.'
+    ,
+    // Additional quotes to fill the expanded library
+    'Our life is what our thoughts make it.',
+    'The universe is change; our life is what our thoughts make it.',
+    'If you are distressed by anything external, the pain is not due to the thing itself, but to your estimate of it; and this you have the power to revoke at any moment.',
+    'You have power over your mind—not outside events. Realise this, and you will find strength.',
+    'No man is free who is not master of himself.',
+    'Luck is what happens when preparation meets opportunity.',
+    'While we wait for life, life passes.',
+    'Difficulties strengthen the mind, as labour does the body.',
+    'We should always allow some time to elapse; time discloses the truth.',
+    'Don’t explain your philosophy. Embody it.'
+    ,
+    'Be tolerant with others and strict with yourself.'
   ];
 
   const scrollElements = document.querySelectorAll('.scroll');
@@ -413,8 +417,10 @@ window.addEventListener('DOMContentLoaded', () => {
   scrollElements.forEach(scroll => {
     scroll.addEventListener('click', () => {
       const index = parseInt(scroll.getAttribute('data-index'));
-      if (!isNaN(index) && libraryQuotes[index]) {
-        libraryQuoteEl.textContent = libraryQuotes[index];
+      if (!isNaN(index)) {
+        // If the quote exists, show it; otherwise pick a random quote from the array
+        const quote = libraryQuotes[index] || libraryQuotes[Math.floor(Math.random() * libraryQuotes.length)];
+        libraryQuoteEl.textContent = quote;
         quoteModal.classList.remove('hidden');
       }
     });
@@ -457,6 +463,23 @@ window.addEventListener('DOMContentLoaded', () => {
     alexandria: {
       name: 'Alexandria',
       description: 'Alexandria in Egypt, with its great Library and Museion, was a hub of learning. Stoic texts were studied alongside works of Plato and Aristotle, and Stoic ideas influenced Hellenistic scholars there.'
+    }
+    ,
+    apameia: {
+      name: 'Apameia',
+      description: 'Apameia (modern Apamea in Syria) was the birthplace of the polymath Posidonius. Though he later taught in Rhodes, his early life in Syria broadened his perspective and informed his historical and geographical writings.'
+    },
+    hierapolis: {
+      name: 'Hierapolis',
+      description: 'Hierapolis (modern Pamukkale, Turkey) was the birthplace of Epictetus. Born a slave, he endured hardship and later gained his freedom, eventually teaching Stoicism in Nicopolis.'
+    },
+    corduba: {
+      name: 'Corduba',
+      description: 'Corduba (modern Córdoba, Spain) was the birthplace of Seneca the Younger. The cultural milieu of Hispania shaped his early years before he became a leading Stoic author and advisor in Rome.'
+    },
+    pergamum: {
+      name: 'Pergamum',
+      description: 'Pergamum in Asia Minor was renowned for its library and academic institutions. Stoic philosophers such as Panaetius studied in its halls, and its intellectual atmosphere contributed to the evolution of Stoic thought.'
     }
   };
 
@@ -629,4 +652,330 @@ window.addEventListener('DOMContentLoaded', () => {
       handleScrambleStep(step);
     });
   });
+
+  /**
+   * Philosopher biographies
+   * A dictionary mapping philosopher names to their biographical summaries.
+   */
+  const philosopherDetails = {
+    'Zeno of Citium': {
+      title: 'Zeno of Citium (c. 334–262 BCE)',
+      text:
+        'Born in Citium, Cyprus, Zeno was a merchant’s son who lost his fortune in a shipwreck near Athens. He studied with Cynics like Crates of Thebes before founding the Stoic school around 300 BCE on the Stoa Poikile. Zeno taught that happiness comes from living in accordance with nature and reason and that all humans share in a universal brotherhood.'
+    },
+    Cleanthes: {
+      title: 'Cleanthes of Assos (c. 331–230 BCE)',
+      text:
+        'A former boxer from Assos in Asia Minor, Cleanthes studied under Zeno for twenty years and succeeded him as head of the Stoic school. He emphasised the unity of physics, logic and ethics and composed the famous “Hymn to Zeus,” celebrating the rational order of the cosmos.'
+    },
+    Chrysippus: {
+      title: 'Chrysippus of Soli (c. 279–206 BCE)',
+      text:
+        'Originally from Soli in Cilicia, Chrysippus became the third scholarch of the Stoa after Cleanthes. A prolific author of over 700 works, he systematised Stoic logic and physics, developing propositional logic and arguing that living according to nature means living rationally. Ancient writers said, “If there had been no Chrysippus, there would have been no Stoa.”'
+    },
+    Panaetius: {
+      title: 'Panaetius of Rhodes (c. 185–110 BCE)',
+      text:
+        'A pupil of Diogenes of Babylon and Antipater of Tarsus, Panaetius became head of the Stoic school around 129 BCE. He softened earlier doctrines, rejecting divination and cosmic conflagration, and argued that virtue alone might not suffice for happiness without some external goods. Panaetius introduced Stoicism to Rome and inspired Cicero’s treatise “On Duties.”'
+    },
+    Posidonius: {
+      title: 'Posidonius of Apameia/Rhodes (c. 135–51 BCE)',
+      text:
+        'A student of Panaetius, Posidonius was a polymath who travelled widely, taught in Rhodes and attempted to measure the Earth’s circumference. He blended Stoicism with Platonic and Aristotelian ideas, wrote on astronomy, geography and history, and his teachings influenced Cicero, Seneca and other Roman intellectuals.'
+    },
+    Seneca: {
+      title: 'Lucius Annaeus Seneca (c. 4 BCE–65 CE)',
+      text:
+        'Born in Corduba (modern Córdoba, Spain) and educated in Rome, Seneca the Younger was a statesman, playwright and Stoic philosopher. He served as tutor and advisor to the emperor Nero. Seneca’s essays and letters counselled self‑control, the wise use of time and the distinction between imagined and actual suffering. Accused of conspiracy, he was compelled to take his own life in 65 CE.'
+    },
+    Epictetus: {
+      title: 'Epictetus (c. 55–135 CE)',
+      text:
+        'Born a slave in Hierapolis, Phrygia, Epictetus studied under Musonius Rufus and gained his freedom. Exiled from Rome in 89 CE, he founded a school in Nicopolis. He taught that while external events are beyond our power, we can always control our judgments and responses. This “dichotomy of control” lies at the heart of his philosophy.'
+    },
+    'Marcus Aurelius': {
+      title: 'Marcus Aurelius Antoninus (121–180 CE)',
+      text:
+        'Marcus Aurelius, adopted by Antoninus Pius, became Roman emperor in 161 CE. He spent much of his reign on military campaigns and composed his “Meditations” as private notes, reflecting on duty, impermanence and the practice of virtue. His reign ended with his death in 180 CE.'
+    }
+  };
+
+  /**
+   * Stoic concept definitions
+   */
+  const conceptDetails = {
+    logos: {
+      title: 'Logos',
+      text:
+        'Logos is the rational, ordering principle of the universe. For the Stoics it is both the divine reason that governs nature and the spark of reason within each human being.'
+    },
+    eudaimonia: {
+      title: 'Eudaimonia',
+      text:
+        'Eudaimonia, often translated as “flourishing,” is the state of living well. In Stoicism it is achieved by living in accordance with virtue and nature, rather than pursuing pleasure or external goods.'
+    },
+    apatheia: {
+      title: 'Apatheia',
+      text:
+        'Apatheia is freedom from destructive passions. It is not indifference but the calm state that arises when one’s judgments align with reason, allowing good feelings like joy and wish to flourish.'
+    },
+    sympatheia: {
+      title: 'Sympatheia',
+      text:
+        'Sympatheia refers to the mutual interconnection of all things. Stoics saw the cosmos as a single living organism; recognising this fosters kinship with all beings and encourages cooperation.'
+    },
+    oikeiosis: {
+      title: 'Oikeiosis',
+      text:
+        'Oikeiosis is the process of appropriation or natural affection. Beginning with self‑preservation, concern gradually extends to family, community and, ultimately, all humanity, grounding Stoic cosmopolitanism.'
+    },
+    control: {
+      title: 'Dichotomy of Control',
+      text:
+        'Articulated by Epictetus, the dichotomy of control divides things into those within our power—our judgments, intentions and actions—and those beyond it—our bodies, reputation and fortune. Peace comes from focusing on what we control.'
+    },
+    prohairesis: {
+      title: 'Prohairesis',
+      text:
+        'Prohairesis is the rational faculty of choice or moral will. It enables us to assent to impressions and act in accordance with virtue. For Stoics, true freedom lies in directing one’s prohairesis properly.'
+    },
+    katalepsis: {
+      title: 'Katalepsis',
+      text:
+        'Katalepsis is a “graspable” or comprehensible impression—perceptual clarity so strong it cannot be false. The Stoics held that such impressions, when assented to by reason, provide the foundation of knowledge.'
+    }
+  };
+
+  /**
+   * Stoic scenarios
+   * Common life situations and how a Stoic might respond
+   */
+  const scenarioDetails = {
+    insult: {
+      title: 'Insult & Offense',
+      text:
+        'When insulted, remember that the offence lies not in the words themselves but in your judgment of them. Respond with patience; if the remark contains truth, use it to improve yourself. Otherwise, let it pass without anger.'
+    },
+    loss: {
+      title: 'Loss of Possessions',
+      text:
+        'If you lose something, recall that it was only on loan from the universe. Focus on your character and virtue, which are truly yours, and accept that externals come and go.'
+    },
+    traffic: {
+      title: 'Waiting in Traffic',
+      text:
+        'Traffic jams are beyond your control. Use the time for reflection, gratitude or deep breathing rather than frustration. The obstacle becomes an opportunity to practise patience.'
+    },
+    illness: {
+      title: 'Falling Ill',
+      text:
+        'Illness affects the body, not the mind. Accept physical ailments as part of nature’s course while cultivating equanimity and gratitude for what remains within your power.'
+    },
+    public: {
+      title: 'Public Speaking',
+      text:
+        'Fear of public speaking often stems from worrying about others’ opinions. Focus instead on speaking truthfully and virtuously; the audience’s reaction is outside your control.'
+    },
+    failure: {
+      title: 'Failure at Work',
+      text:
+        'Professional setbacks are inevitable. Learn from them and concentrate on acting well rather than on the outcome. Failure is valuable feedback for your growth.'
+    },
+    conflict: {
+      title: 'Family Conflict',
+      text:
+        'During family disagreements, exercise empathy and justice. Remember that others act according to their own perceptions; respond calmly and keep your own actions aligned with virtue.'
+    },
+    success: {
+      title: 'Unexpected Success',
+      text:
+        'Success can tempt the ego. Greet it with modesty and remember that external achievements are indifferent; only virtuous intentions and actions truly matter.'
+    }
+  };
+
+  /**
+   * Influences and legacy entries
+   * Thinkers who inspired Stoicism or were influenced by it
+   */
+  const influenceDetails = {
+    socrates: {
+      title: 'Socrates (c. 470–399 BCE)',
+      text:
+        'Socrates emphasised self‑knowledge, virtue and rational inquiry. His fearless questioning of convention and acceptance of fate inspired later Stoics to value wisdom and live in accordance with reason.'
+    },
+    cynics: {
+      title: 'The Cynics',
+      text:
+        'Cynic philosophers like Diogenes of Sinope (c. 412–323 BCE) practised radical simplicity and rejected social conventions. Zeno studied with the Cynics, and their emphasis on self‑sufficiency and indifference to external goods shaped Stoic ethics.'
+    },
+    cicero: {
+      title: 'Cicero (106–43 BCE)',
+      text:
+        'Marcus Tullius Cicero was a Roman orator and statesman who popularised Stoic ideas in works such as “On Duties.” Drawing on Panaetius and Posidonius, he presented Stoic ethics in Latin and influenced later Roman thought.'
+    },
+    hadot: {
+      title: 'Pierre Hadot (1922–2010)',
+      text:
+        'A 20th‑century French philosopher, Pierre Hadot argued that ancient philosophy was a way of life rather than mere theory. His interpretations of Stoic “spiritual exercises” helped revive practical Stoicism in the modern era.'
+    },
+    modern: {
+      title: 'Modern Stoicism',
+      text:
+        'Today, authors and thinkers adapt Stoicism to contemporary life. Writers like Ryan Holiday and Massimo Pigliucci encourage practising Stoic principles—focusing on what we control, cultivating virtue and finding resilience in adversity.'
+    }
+  };
+
+  // Biography modal elements
+  const bioModal = document.getElementById('bio-modal');
+  const bioTitle = document.getElementById('bio-title');
+  const bioText = document.getElementById('bio-text');
+
+  // Open biography or concept definition in modal
+  function openBio(title, text) {
+    bioTitle.textContent = title;
+    bioText.textContent = text;
+    bioModal.classList.remove('hidden');
+  }
+
+  // Event listener for philosopher names in timeline
+  document.querySelectorAll('.timeline-item h3').forEach(el => {
+    el.addEventListener('click', (event) => {
+      const philosopher = el.textContent.trim();
+      const details = philosopherDetails[philosopher];
+      if (details) {
+        openBio(details.title, details.text);
+      }
+      event.stopPropagation();
+    });
+  });
+
+  // Event listener for concept items
+  document.querySelectorAll('.concept-item').forEach(item => {
+    item.addEventListener('click', () => {
+      const key = item.getAttribute('data-concept');
+      const details = conceptDetails[key];
+      if (details) {
+        openBio(details.title, details.text);
+      }
+    });
+  });
+
+  // Event listeners for scenario items
+  document.querySelectorAll('.scenario-item').forEach(item => {
+    item.addEventListener('click', () => {
+      const key = item.getAttribute('data-scenario');
+      const details = scenarioDetails[key];
+      if (details) {
+        openBio(details.title, details.text);
+      }
+    });
+  });
+
+  // Event listeners for influence items
+  document.querySelectorAll('.influence-item').forEach(item => {
+    item.addEventListener('click', () => {
+      const key = item.getAttribute('data-influence');
+      const details = influenceDetails[key];
+      if (details) {
+        openBio(details.title, details.text);
+      }
+    });
+  });
+
+  /**
+   * Mini lesson definitions and modal logic
+   * Each lesson summarises a key Stoic theme from the provided overview.
+   */
+  const lessonDetails = {
+    lesson1: {
+      title: 'Big Idea & Stoicism 101',
+      text:
+        'Stoicism is an ancient philosophy about living a good life. It goes beyond simply remaining calm—it explores how to develop virtue and live in harmony with reason. The Stoics taught that our happiness depends on our character rather than on external circumstances.'
+    },
+    lesson2: {
+      title: 'Origins & Influences',
+      text:
+        'Stoicism grew out of earlier Greek thought. Socrates taught that character matters more than wealth or fame, while the Cynics like Diogenes rejected materialism and social conventions. Zeno of Citium, inspired by these ideas, founded the Stoic school at the Stoa Poikile after a shipwreck showed him that losing possessions does not mean losing oneself.'
+    },
+    lesson3: {
+      title: 'The Stoic System',
+      text:
+        'Ancient Stoicism was more than self‑help—it was a complete system. Stoics studied three disciplines: logic (how to think clearly and assent only to true impressions), physics (the nature and order of the universe), and ethics (how to live well and cultivate virtue).'
+    },
+    lesson4: {
+      title: 'Stoic Logic & Assent',
+      text:
+        'Knowledge begins with our senses. We perceive the world through sight, hearing, touch, smell and taste. The mind forms impressions, and we decide whether to assent—that is, agree that an impression is true. Stoics cautioned against rash assent because many problems arise from accepting false judgments.'
+    },
+    lesson5: {
+      title: 'Emotions & Judgments',
+      text:
+        'Stoicism is not about suppressing feelings. The Stoics believed that unhealthy emotions like distress, fear and excessive desire stem from mistaken judgments. By examining and correcting our thoughts, we transform disruptive passions into rational states such as joy, caution and wish.'
+    },
+    lesson6: {
+      title: 'Universe & Logos',
+      text:
+        'The Stoics saw the universe as an ordered whole governed by logos—divine reason or rational structure. They often identified God with Nature itself, a view called pantheism. For them, living according to nature meant aligning one’s will with this rational order.'
+    },
+    lesson7: {
+      title: 'Human Nature & Virtue',
+      text:
+        'Humans are unique because we can reason and reflect. A good human life, according to Stoicism, is one in which reason guides our desires and actions. Virtue—wisdom, courage, justice and self‑control—is the only true good and the foundation of happiness.'
+    },
+    lesson8: {
+      title: 'Indifferents',
+      text:
+        'The Stoics recognised that some externals are naturally preferred (health, food, shelter, friendship) and others dispreferred (sickness, hunger, poverty, pain). They called these indifferents because they do not determine whether we are good people. Preferred indifferents are worth choosing when they do not compromise virtue; dispreferred indifferents are worth avoiding when possible.'
+    },
+    lesson9: {
+      title: 'Control & Responsibility',
+      text:
+        'We should distinguish between what we can control—our judgments, choices, words and actions—and what we cannot—other people’s opinions, the weather, the past. Stoicism teaches us to invest our energy in what is up to us and accept what is not.'
+    },
+    lesson10: {
+      title: 'Suffering & Resilience',
+      text:
+        'Stoics acknowledged that pain, loss and failure are real. However, they held that suffering cannot corrupt our character unless we allow it. Even in illness or adversity, we can choose courage, patience and kindness—virtues that sustain us through hardship.'
+    },
+    lesson11: {
+      title: 'Fate & Freedom',
+      text:
+        'Everything unfolds through cause and effect, which the Stoics called fate. Yet our choices still matter because they are part of this causal chain. Facing the same event, different people respond differently depending on their character. That is why training our minds is essential.'
+    },
+    lesson12: {
+      title: 'Practice & Misconceptions',
+      text:
+        'Stoicism is a way of life, not merely a theory. Practising Stoicism means applying its principles in daily challenges—insults, nervousness, exclusion, mistakes—by focusing on what we control and acting virtuously. It is not about hiding emotions or seeking wealth, but about justice, courage, wisdom and self‑control.'
+    }
+  };
+
+  // Grab lesson modal elements
+  const lessonModal = document.getElementById('lesson-modal');
+  const lessonTitle = document.getElementById('lesson-title');
+  const lessonTextEl = document.getElementById('lesson-text');
+
+  // Event listeners for mini lesson cards
+  document.querySelectorAll('.lesson-item').forEach(item => {
+    item.addEventListener('click', () => {
+      const key = item.getAttribute('data-lesson');
+      const details = lessonDetails[key];
+      if (details) {
+        lessonTitle.textContent = details.title;
+        lessonTextEl.textContent = details.text;
+        lessonModal.classList.remove('hidden');
+      }
+    });
+  });
+
+  // Explicit close handler for the lesson modal
+  if (lessonModal) {
+    const closeBtn = lessonModal.querySelector('.close-modal');
+    if (closeBtn) {
+      closeBtn.addEventListener('click', () => {
+        lessonModal.classList.add('hidden');
+      });
+    }
+  }
+
+  // Close bio modal when clicking × button (using existing close-modal class handler)
 });

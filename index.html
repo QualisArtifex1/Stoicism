@@ -31,6 +31,10 @@
           <li><a href="#activities">Activities</a></li>
           <li><a href="#exercises">Exercises</a></li>
           <li><a href="#scramble">Word Scramble</a></li>
+          <li><a href="#concepts">Concepts</a></li>
+          <li><a href="#dilemmas">Scenarios</a></li>
+          <li><a href="#influences">Influences&nbsp;&amp;&nbsp;Legacy</a></li>
+          <li><a href="#lessons">Mini&nbsp;Lessons</a></li>
         </ul>
       </nav>
     </header>
@@ -38,16 +42,8 @@
     <main>
       <!-- Hero Section -->
       <section id="hero" class="hero">
-        <div class="hero-content">
-          <h2>Discover the Art of Living</h2>
-          <p>
-            Welcome to a digital temple of Stoicism. Here you can wander through
-            history, explore teachings and virtues, engage with interactive
-            activities, and reflect on timeless wisdom. Start your journey
-            below.
-          </p>
-          <a href="#what-is-stoicism" class="cta-button">Begin Exploring</a>
-        </div>
+        <!-- Updated hero: display the new header image supplied by the user. This replaces the old CTA and translucent banner. -->
+        <img src="images/new-header.png" alt="Stoic landscape header" class="hero-image" />
       </section>
 
       <!-- What is Stoicism? -->
@@ -156,60 +152,58 @@
           Explore an interactive timeline of Stoicism’s founders and key figures.
         </p>
         <div class="timeline">
-          <div class="timeline-item" data-year="300" data-philosopher="Zeno of Citium">
-            <span class="year">c. 300 BCE</span>
+          <!-- Each timeline-item represents a philosopher with accurate dates. Clicking the name reveals a brief bio via JS. -->
+          <div class="timeline-item" data-year="298" data-philosopher="Zeno of Citium">
+            <span class="year">c. 334–262 BCE</span>
             <h3>Zeno of Citium</h3>
-            <p class="hidden">
-              Zeno founded the Stoic school around 300 BCE in Athens.
-              He taught on the Stoa Poikile and emphasized living according to nature.
-            </p>
+            <p class="hidden">Founder of Stoicism; taught on the Stoa Poikile in Athens and urged living according to nature.</p>
           </div>
           <div class="timeline-item" data-year="280" data-philosopher="Cleanthes">
-            <span class="year">c. 280 BCE</span>
+            <span class="year">c. 331–230 BCE</span>
             <h3>Cleanthes</h3>
-            <p class="hidden">
-              Succeeding Zeno, Cleanthes led the school and composed hymns to Zeus.
-            </p>
+            <p class="hidden">Second head of the Stoic school; wrote the Hymn to Zeus and emphasised physics and ethics.</p>
           </div>
-          <div class="timeline-item" data-year="230" data-philosopher="Chrysippus">
-            <span class="year">c. 230 BCE</span>
+          <div class="timeline-item" data-year="243" data-philosopher="Chrysippus">
+            <span class="year">c. 279–206 BCE</span>
             <h3>Chrysippus</h3>
-            <p class="hidden">
-              Chrysippus, the third head of the Stoa, systematized Stoic logic
-              and ethics. Despite his prolific writings,
-              only fragments remain.
-            </p>
+            <p class="hidden">Systematised Stoic logic and ethics; wrote hundreds of books as the third head of the Stoa.</p>
           </div>
-          <div class="timeline-item" data-year="50" data-philosopher="Seneca">
-            <span class="year">c. 50 CE</span>
+          <div class="timeline-item" data-year="147" data-philosopher="Panaetius">
+            <span class="year">c. 185–110 BCE</span>
+            <h3>Panaetius</h3>
+            <p class="hidden">Middle Stoic leader who brought Stoicism to Rome and blended Platonic and Aristotelian ideas.</p>
+          </div>
+          <div class="timeline-item" data-year="93" data-philosopher="Posidonius">
+            <span class="year">c. 135–51 BCE</span>
+            <h3>Posidonius</h3>
+            <p class="hidden">Polymath and student of Panaetius; travelled widely, taught in Rhodes and wrote on science and geography.</p>
+          </div>
+          <div class="timeline-item" data-year="31" data-philosopher="Seneca">
+            <span class="year">c. 4 BCE–65 CE</span>
             <h3>Seneca</h3>
-            <p class="hidden">
-              A Roman statesman and playwright, Seneca popularized Stoicism in
-              his letters and essays and advised Nero. He
-              reminded us that “We suffer more often in imagination than in
-              reality”.
-            </p>
+            <p class="hidden">Roman statesman and Stoic author; wrote essays and letters advising self‑control and wise use of time.</p>
           </div>
-          <div class="timeline-item" data-year="90" data-philosopher="Epictetus">
-            <span class="year">c. 90 CE</span>
+          <div class="timeline-item" data-year="95" data-philosopher="Epictetus">
+            <span class="year">c. 55–135 CE</span>
             <h3>Epictetus</h3>
-            <p class="hidden">
-              Born a slave, Epictetus taught that while we cannot control external
-              events, we can control how we respond. He was expelled from Rome
-              and taught in Nicopolis, influencing later Stoics.
-            </p>
+            <p class="hidden">Former slave turned philosopher; taught in Nicopolis that we control our judgments, not externals.</p>
           </div>
-          <div class="timeline-item" data-year="170" data-philosopher="Marcus Aurelius">
-            <span class="year">c. 170 CE</span>
+          <div class="timeline-item" data-year="150" data-philosopher="Marcus Aurelius">
+            <span class="year">121–180 CE</span>
             <h3>Marcus Aurelius</h3>
-            <p class="hidden">
-              Emperor of Rome from 161–180 CE, Marcus Aurelius penned his
-              <em>Meditations</em> as private notes to himself. His writings
-              remain a timeless guide to inner strength and virtue.
-            </p>
+            <p class="hidden">Philosopher‑emperor of Rome; wrote the <em>Meditations</em> while campaigning, reflecting on duty and virtue.</p>
           </div>
         </div>
       </section>
+
+      <!-- Philosopher Biography Modal -->
+      <div id="bio-modal" class="modal hidden">
+        <div class="modal-content">
+          <button class="close-modal">×</button>
+          <h3 id="bio-title"></h3>
+          <p id="bio-text"></p>
+        </div>
+      </div>
 
       <!-- Meditations Section -->
       <section id="meditations" class="section light">
@@ -265,6 +259,7 @@
         <h2>The Stoic Library</h2>
         <p>Click on any scroll to reveal a nugget of wisdom from ancient Stoics.</p>
         <div class="library-grid">
+          <!-- Extended to 30 scrolls to encourage deeper exploration -->
           <div class="scroll" data-index="0"><span>Scroll 1</span></div>
           <div class="scroll" data-index="1"><span>Scroll 2</span></div>
           <div class="scroll" data-index="2"><span>Scroll 3</span></div>
@@ -285,6 +280,16 @@
           <div class="scroll" data-index="17"><span>Scroll 18</span></div>
           <div class="scroll" data-index="18"><span>Scroll 19</span></div>
           <div class="scroll" data-index="19"><span>Scroll 20</span></div>
+          <div class="scroll" data-index="20"><span>Scroll 21</span></div>
+          <div class="scroll" data-index="21"><span>Scroll 22</span></div>
+          <div class="scroll" data-index="22"><span>Scroll 23</span></div>
+          <div class="scroll" data-index="23"><span>Scroll 24</span></div>
+          <div class="scroll" data-index="24"><span>Scroll 25</span></div>
+          <div class="scroll" data-index="25"><span>Scroll 26</span></div>
+          <div class="scroll" data-index="26"><span>Scroll 27</span></div>
+          <div class="scroll" data-index="27"><span>Scroll 28</span></div>
+          <div class="scroll" data-index="28"><span>Scroll 29</span></div>
+          <div class="scroll" data-index="29"><span>Scroll 30</span></div>
         </div>
         <div id="quote-modal" class="modal hidden">
           <div class="modal-content">
@@ -330,6 +335,23 @@
           <div class="place" data-place="alexandria">
             <h3>Alexandria</h3>
             <p class="place-summary">Library & learning</p>
+          </div>
+          <!-- Additional Stoic locations for deeper exploration -->
+          <div class="place" data-place="apameia">
+            <h3>Apameia</h3>
+            <p class="place-summary">Birthplace of Posidonius</p>
+          </div>
+          <div class="place" data-place="hierapolis">
+            <h3>Hierapolis</h3>
+            <p class="place-summary">Epictetus’ birthplace</p>
+          </div>
+          <div class="place" data-place="corduba">
+            <h3>Corduba</h3>
+            <p class="place-summary">Seneca’s origins</p>
+          </div>
+          <div class="place" data-place="pergamum">
+            <h3>Pergamum</h3>
+            <p class="place-summary">Hellenistic learning</p>
           </div>
         </div>
         <div id="place-detail" class="place-detail hidden">
@@ -457,6 +479,125 @@
           <div class="scramble-step hidden" id="scramble-complete">
             <h3>Well done!</h3>
             <p>You’ve unscrambled all the Stoic words. Remember: understanding the concepts is the first step to living them.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Stoic Scenarios Section -->
+      <section id="dilemmas" class="section">
+        <h2>Stoic Scenarios</h2>
+        <p>
+          Life often throws challenges our way. Click on a scenario below to see how a Stoic might approach the situation with wisdom and composure.
+        </p>
+        <div class="scenario-grid">
+          <div class="scenario-item" data-scenario="insult">
+            <h3>Insult &amp; Offense</h3>
+          </div>
+          <div class="scenario-item" data-scenario="loss">
+            <h3>Loss of Possessions</h3>
+          </div>
+          <div class="scenario-item" data-scenario="traffic">
+            <h3>Waiting in Traffic</h3>
+          </div>
+          <div class="scenario-item" data-scenario="illness">
+            <h3>Falling Ill</h3>
+          </div>
+          <div class="scenario-item" data-scenario="public">
+            <h3>Public Speaking</h3>
+          </div>
+          <div class="scenario-item" data-scenario="failure">
+            <h3>Failure at Work</h3>
+          </div>
+          <div class="scenario-item" data-scenario="conflict">
+            <h3>Family Conflict</h3>
+          </div>
+          <div class="scenario-item" data-scenario="success">
+            <h3>Unexpected Success</h3>
+          </div>
+        </div>
+      </section>
+
+      <!-- Influences & Legacy Section -->
+      <section id="influences" class="section light">
+        <h2>Influences &amp; Legacy</h2>
+        <p>
+          Stoicism didn’t arise in a vacuum. It drew inspiration from earlier thinkers and continues to inspire people today. Explore these influences and legacies.
+        </p>
+        <div class="influence-grid">
+          <div class="influence-item" data-influence="socrates">
+            <h3>Socrates</h3>
+          </div>
+          <div class="influence-item" data-influence="cynics">
+            <h3>The Cynics</h3>
+          </div>
+          <div class="influence-item" data-influence="cicero">
+            <h3>Cicero</h3>
+          </div>
+          <div class="influence-item" data-influence="hadot">
+            <h3>Pierre Hadot</h3>
+          </div>
+          <div class="influence-item" data-influence="modern">
+            <h3>Modern Stoicism</h3>
+          </div>
+        </div>
+      </section>
+
+      <!-- Stoic Concepts Section -->
+      <section id="concepts" class="section">
+        <h2>Stoic Concepts</h2>
+        <p>Click on each concept to learn its meaning in Stoic philosophy.</p>
+        <div class="concept-grid">
+          <div class="concept-item" data-concept="logos">
+            <h3>Logos</h3>
+          </div>
+          <div class="concept-item" data-concept="eudaimonia">
+            <h3>Eudaimonia</h3>
+          </div>
+          <div class="concept-item" data-concept="apatheia">
+            <h3>Apatheia</h3>
+          </div>
+          <div class="concept-item" data-concept="sympatheia">
+            <h3>Sympatheia</h3>
+          </div>
+          <div class="concept-item" data-concept="oikeiosis">
+            <h3>Oikeiosis</h3>
+          </div>
+          <div class="concept-item" data-concept="control">
+            <!-- Use regular spaces instead of non-breaking spaces so the phrase can wrap naturally -->
+            <h3>Dichotomy of Control</h3>
+          </div>
+          <div class="concept-item" data-concept="prohairesis">
+            <h3>Prohairesis</h3>
+          </div>
+          <div class="concept-item" data-concept="katalepsis">
+            <h3>Katalepsis</h3>
+          </div>
+        </div>
+      </section>
+
+      <!-- Stoic Mini Lessons Section -->
+      <section id="lessons" class="section light">
+        <h2>Mini Lessons</h2>
+        <p>Explore these bite‑sized lessons to deepen your understanding of Stoic philosophy.</p>
+        <div class="lesson-grid">
+          <div class="lesson-item" data-lesson="lesson1"><h3>Big Idea &amp; Stoicism 101</h3></div>
+          <div class="lesson-item" data-lesson="lesson2"><h3>Origins &amp; Influences</h3></div>
+          <div class="lesson-item" data-lesson="lesson3"><h3>The Stoic System</h3></div>
+          <div class="lesson-item" data-lesson="lesson4"><h3>Stoic Logic &amp; Assent</h3></div>
+          <div class="lesson-item" data-lesson="lesson5"><h3>Emotions &amp; Judgments</h3></div>
+          <div class="lesson-item" data-lesson="lesson6"><h3>Universe &amp; Logos</h3></div>
+          <div class="lesson-item" data-lesson="lesson7"><h3>Human Nature &amp; Virtue</h3></div>
+          <div class="lesson-item" data-lesson="lesson8"><h3>Indifferents</h3></div>
+          <div class="lesson-item" data-lesson="lesson9"><h3>Control &amp; Responsibility</h3></div>
+          <div class="lesson-item" data-lesson="lesson10"><h3>Suffering &amp; Resilience</h3></div>
+          <div class="lesson-item" data-lesson="lesson11"><h3>Fate &amp; Freedom</h3></div>
+          <div class="lesson-item" data-lesson="lesson12"><h3>Practice &amp; Misconceptions</h3></div>
+        </div>
+        <div id="lesson-modal" class="modal hidden">
+          <div class="modal-content">
+            <button class="close-modal">×</button>
+            <h3 id="lesson-title"></h3>
+            <p id="lesson-text"></p>
           </div>
         </div>
       </section>
