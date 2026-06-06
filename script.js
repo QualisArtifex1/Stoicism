@@ -7,6 +7,252 @@
 
 // Wait until DOM content is loaded
 window.addEventListener('DOMContentLoaded', () => {
+  // Responsive navigation
+  const menuToggle = document.querySelector('.menu-toggle');
+  const siteNavigation = document.getElementById('site-navigation');
+
+  function closeNavigation() {
+    siteNavigation.classList.remove('open');
+    menuToggle.setAttribute('aria-expanded', 'false');
+    document.body.classList.remove('menu-open');
+  }
+
+  menuToggle.addEventListener('click', () => {
+    const isOpen = menuToggle.getAttribute('aria-expanded') === 'true';
+    menuToggle.setAttribute('aria-expanded', String(!isOpen));
+    siteNavigation.classList.toggle('open', !isOpen);
+    document.body.classList.toggle('menu-open', !isOpen);
+  });
+
+  siteNavigation.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', closeNavigation);
+  });
+
+  // Make card-like controls keyboard accessible without changing their visual design.
+  const interactiveSelector = [
+    '.card',
+    '.virtue',
+    '.timeline-item',
+    '.activity-card',
+    '.scroll',
+    '.place',
+    '.exercise-card',
+    '.scenario-item',
+    '.influence-item',
+    '.concept-item',
+    '.lesson-item'
+  ].join(',');
+
+  document.querySelectorAll(interactiveSelector).forEach(item => {
+    item.setAttribute('role', 'button');
+    item.setAttribute('tabindex', '0');
+    item.addEventListener('keydown', event => {
+      if (event.key === 'Enter' || event.key === ' ') {
+        event.preventDefault();
+        item.click();
+      }
+    });
+  });
+
+  // Keep page scrolling and Escape-key behavior tidy while dialogs are open.
+  const modals = document.querySelectorAll('.modal');
+  const modalObserver = new MutationObserver(() => {
+    const hasOpenModal = Array.from(modals).some(modal => !modal.classList.contains('hidden'));
+    document.body.classList.toggle('modal-open', hasOpenModal);
+  });
+
+  modals.forEach(modal => {
+    modal.setAttribute('role', 'dialog');
+    modal.setAttribute('aria-modal', 'true');
+    modalObserver.observe(modal, { attributes: true, attributeFilter: ['class'] });
+    modal.addEventListener('click', event => {
+      if (event.target === modal) {
+        modal.classList.add('hidden');
+      }
+    });
+  });
+
+  document.addEventListener('keydown', event => {
+    if (event.key === 'Escape') {
+      closeNavigation();
+      modals.forEach(modal => modal.classList.add('hidden'));
+    }
+  });
+
+  const backToTop = document.querySelector('.back-to-top');
+  window.addEventListener('scroll', () => {
+    backToTop.classList.toggle('visible', window.scrollY > 700);
+  }, { passive: true });
+
+  backToTop.addEventListener('click', () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+
+  // Build a lightweight topic directory from the page's existing sections.
+  const discoveryResults = document.getElementById('discovery-results');
+  const sectionSearch = document.getElementById('section-search');
+  const filterButtons = document.querySelectorAll('.filter-button');
+  const discoverableSections = Array.from(document.querySelectorAll('.section[data-category]')).map(section => ({
+    id: section.id,
+    category: section.dataset.category,
+    title: section.querySelector('h2').textContent.trim(),
+    description: section.querySelector('p')?.textContent.trim() || ''
+  }));
+  let activeFilter = 'all';
+
+  function renderDiscovery() {
+    const query = sectionSearch.value.trim().toLowerCase();
+    const matches = discoverableSections.filter(section => {
+      const matchesFilter = activeFilter === 'all' || section.category === activeFilter;
+      const matchesQuery = !query || `${section.title} ${section.description}`.toLowerCase().includes(query);
+      return matchesFilter && matchesQuery;
+    });
+
+    discoveryResults.innerHTML = matches.length
+      ? matches.map(section => `
+          <a class="discovery-link" href="#${section.id}">
+            <span>${section.category}</span>
+            <strong>${section.title}</strong>
+          </a>
+        `).join('')
+      : '<p class="discovery-empty">No topics match that search yet.</p>';
+  }
+
+  filterButtons.forEach(button => {
+    button.addEventListener('click', () => {
+      activeFilter = button.dataset.filter;
+      filterButtons.forEach(item => item.classList.toggle('active', item === button));
+      renderDiscovery();
+    });
+  });
+  sectionSearch.addEventListener('input', renderDiscovery);
+  renderDiscovery();
+
+  // Guided courses connect existing sections into focused learning sequences.
+  const courseCatalog = [
+    {
+      id: 'stoicism-10',
+      title: 'Stoicism in 10 Minutes',
+      description: 'A quick orientation to the philosophy, its virtues, and its central vocabulary.',
+      steps: [
+        ['#what-is-stoicism', 'The big idea'],
+        ['#virtues', 'The four virtues'],
+        ['#concepts', 'Essential vocabulary']
+      ]
+    },
+    {
+      id: 'control',
+      title: 'Understanding Control',
+      description: 'Learn where your agency begins, then practise applying it to real situations.',
+      steps: [
+        ['#concepts', 'Dichotomy of control'],
+        ['#dilemmas', 'Decision practice'],
+        ['#exercises', 'Write a reflection']
+      ]
+    },
+    {
+      id: 'resilience',
+      title: 'Building Resilience',
+      description: 'Use Stoic ideas to meet difficulty without losing judgment or compassion.',
+      steps: [
+        ['#meditations', 'Read a meditation'],
+        ['#dilemmas', 'Face a difficult choice'],
+        ['#exercises', 'Complete a resilience practice']
+      ]
+    },
+    {
+      id: 'seven-days',
+      title: 'Seven Days of Practice',
+      description: 'A repeatable path through reflection, judgment, and daily action.',
+      steps: [
+        ['#daily-practice', 'Begin with today’s question'],
+        ['#exercises', 'Complete a journal practice'],
+        ['#dilemmas', 'Apply it to a decision']
+      ]
+    }
+  ];
+  let courseProgress = {};
+  try {
+    courseProgress = JSON.parse(localStorage.getItem('stoicCourseProgress') || '{}');
+  } catch (error) {
+    courseProgress = {};
+  }
+  const courseGrid = document.getElementById('course-grid');
+  const courseWorkspace = document.getElementById('course-workspace');
+  const courseWorkspaceTitle = document.getElementById('course-workspace-title');
+  const courseWorkspaceDescription = document.getElementById('course-workspace-description');
+  const courseStepLabel = document.getElementById('course-step-label');
+  const courseStepList = document.getElementById('course-step-list');
+
+  function saveCourseProgress() {
+    try {
+      localStorage.setItem('stoicCourseProgress', JSON.stringify(courseProgress));
+    } catch (error) {
+      // The courses remain usable when storage is unavailable.
+    }
+  }
+
+  function totalCompletedCourseSteps() {
+    return Object.values(courseProgress).reduce((total, steps) => total + steps.length, 0);
+  }
+
+  function renderCourses() {
+    document.getElementById('course-progress-summary').textContent = `${totalCompletedCourseSteps()} lessons completed`;
+    courseGrid.innerHTML = courseCatalog.map(course => {
+      const completed = courseProgress[course.id]?.length || 0;
+      const percent = Math.round((completed / course.steps.length) * 100);
+      return `
+        <button class="course-card" type="button" data-course="${course.id}">
+          <span>${course.steps.length} steps</span>
+          <h3>${course.title}</h3>
+          <p>${course.description}</p>
+          <div class="course-progress-track"><i style="width:${percent}%"></i></div>
+          <strong>${completed ? `${completed} of ${course.steps.length} complete` : 'Start course'} →</strong>
+        </button>
+      `;
+    }).join('');
+  }
+
+  function openCourse(courseId) {
+    const course = courseCatalog.find(item => item.id === courseId);
+    const completedSteps = courseProgress[courseId] || [];
+    courseWorkspaceTitle.textContent = course.title;
+    courseWorkspaceDescription.textContent = course.description;
+    courseStepLabel.textContent = `${completedSteps.length} of ${course.steps.length} complete`;
+    courseStepList.innerHTML = course.steps.map(([href, label], index) => `
+      <div class="course-step ${completedSteps.includes(index) ? 'completed' : ''}">
+        <button type="button" data-course="${courseId}" data-course-step="${index}" aria-label="Mark ${label} complete">
+          ${completedSteps.includes(index) ? '✓' : index + 1}
+        </button>
+        <a href="${href}"><strong>${label}</strong><span>Open this lesson →</span></a>
+      </div>
+    `).join('');
+    courseWorkspace.classList.remove('hidden');
+    courseWorkspace.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+
+  courseGrid.addEventListener('click', event => {
+    const card = event.target.closest('[data-course]');
+    if (card) openCourse(card.dataset.course);
+  });
+
+  courseStepList.addEventListener('click', event => {
+    const button = event.target.closest('[data-course-step]');
+    if (!button) return;
+    const courseId = button.dataset.course;
+    const step = parseInt(button.dataset.courseStep);
+    const steps = courseProgress[courseId] || [];
+    courseProgress[courseId] = steps.includes(step) ? steps.filter(item => item !== step) : [...steps, step];
+    saveCourseProgress();
+    renderCourses();
+    openCourse(courseId);
+  });
+
+  document.getElementById('close-course').addEventListener('click', () => {
+    courseWorkspace.classList.add('hidden');
+  });
+  renderCourses();
+
   // The hero section now contains only an image, so no need to hide it on click
   // Card toggles in "What is Stoicism" section
   document.querySelectorAll('.card').forEach(card => {
@@ -14,10 +260,13 @@ window.addEventListener('DOMContentLoaded', () => {
       const content = card.querySelector('.card-content');
       if (content.classList.contains('active')) {
         content.classList.remove('active');
+        card.setAttribute('aria-expanded', 'false');
       } else {
         content.classList.add('active');
+        card.setAttribute('aria-expanded', 'true');
       }
     });
+    card.setAttribute('aria-expanded', 'false');
   });
 
   // Virtue detail descriptions
@@ -121,6 +370,79 @@ window.addEventListener('DOMContentLoaded', () => {
 
   // show an initial quote
   showRandomQuote();
+
+  // Give repeat visitors a stable daily quote and reflection question.
+  const dailyQuestions = [
+    'What is within your control today, and what can you release?',
+    'Where could you choose courage instead of comfort today?',
+    'What would justice ask of you in your next conversation?',
+    'Which desire could you hold more lightly?',
+    'What difficulty can become today’s practice?',
+    'How can you respond rather than react?',
+    'What would a wise use of your time look like today?'
+  ];
+  const dayNumber = Math.floor(Date.now() / 86400000);
+  document.getElementById('daily-quote').textContent = quotes[dayNumber % quotes.length].text;
+  document.getElementById('daily-question').textContent = dailyQuestions[dayNumber % dailyQuestions.length];
+
+  // Public-domain art gallery
+  const artEntries = [
+    {
+      src: 'images/art/death-of-socrates.jpg',
+      alt: 'The Death of Socrates by Jacques-Louis David',
+      meta: '1787 · Jacques-Louis David · The Metropolitan Museum of Art',
+      title: 'The Death of Socrates',
+      text: 'David presents Socrates as composed and intellectually active at the moment of death. Stoics inherited from Socrates the conviction that moral character matters more than survival, reputation, or comfort.',
+      source: 'https://commons.wikimedia.org/wiki/File:David_-_The_Death_of_Socrates.jpg'
+    },
+    {
+      src: 'images/art/death-of-seneca-honthorst.jpg',
+      alt: 'The Death of Seneca by Gerrit van Honthorst',
+      meta: 'c. 1625 · Gerrit van Honthorst · Schorr Collection',
+      title: 'The Death of Seneca',
+      text: 'Honthorst uses dramatic light to turn Seneca’s forced death into a meditation on courage and constancy. The painting also raises a difficult Stoic question: how should a person preserve integrity while living close to power?',
+      source: 'https://commons.wikimedia.org/wiki/File:The_Death_of_Seneca_by_Gerrit_van_Honthorst.JPG'
+    },
+    {
+      src: 'images/art/last-words-marcus-aurelius.jpg',
+      alt: 'Last Words of the Emperor Marcus Aurelius by Eugène Delacroix',
+      meta: '1844 · Eugène Delacroix · Museum of Fine Arts of Lyon',
+      title: 'Last Words of Marcus Aurelius',
+      text: 'Marcus Aurelius appears as a teacher even at the end of life. Delacroix contrasts the emperor’s seriousness with Commodus, whose turned body suggests a rejection of duty and philosophical discipline.',
+      source: 'https://commons.wikimedia.org/wiki/File:Delacroix-Marc_Aur%C3%A8le-MBA-Lyon.jpg'
+    },
+    {
+      src: 'images/art/zeno-stanley.jpg',
+      alt: 'Engraved portrait of Zeno of Citium from Thomas Stanley’s History of Philosophy',
+      meta: '1655 · Thomas Stanley’s History of Philosophy',
+      title: 'Zeno of Citium',
+      text: 'No reliable contemporary portrait of Zeno survives. This much later engraving shows how artists and historians imagined philosophy’s founders and helped give ancient thought a recognizable human face.',
+      source: 'https://commons.wikimedia.org/wiki/File:Zeno_of_Citium_in_Thomas_Stanley_History_of_Philosophy.jpg'
+    }
+  ];
+  const artModal = document.getElementById('art-modal');
+  const artModalImage = document.getElementById('art-modal-image');
+
+  function openArt(index) {
+    const art = artEntries[index];
+    artModalImage.src = art.src;
+    artModalImage.alt = art.alt;
+    document.getElementById('art-modal-meta').textContent = art.meta;
+    document.getElementById('art-modal-title').textContent = art.title;
+    document.getElementById('art-modal-text').textContent = art.text;
+    document.getElementById('art-modal-source').href = art.source;
+    artModal.classList.remove('hidden');
+  }
+
+  document.querySelectorAll('[data-art-index]').forEach(card => {
+    card.addEventListener('click', () => openArt(parseInt(card.dataset.artIndex)));
+    card.addEventListener('keydown', event => {
+      if (event.key === 'Enter' || event.key === ' ') {
+        event.preventDefault();
+        openArt(parseInt(card.dataset.artIndex));
+      }
+    });
+  });
 
   // Quiz logic
   const quizData = [
@@ -500,6 +822,13 @@ window.addEventListener('DOMContentLoaded', () => {
     });
   });
 
+  document.querySelectorAll('[data-map-place]').forEach(marker => {
+    marker.addEventListener('click', () => {
+      const matchingPlace = document.querySelector(`.place[data-place="${marker.dataset.mapPlace}"]`);
+      if (matchingPlace) matchingPlace.click();
+    });
+  });
+
   // Close button for place detail
   // Attach a click listener to the place detail box so clicking the × button hides it
   placeDetailBox.addEventListener('click', (event) => {
@@ -582,8 +911,8 @@ window.addEventListener('DOMContentLoaded', () => {
   });
 
   /**
-   * Stoic Exercises functionality
-   * Each exercise card flips to reveal a reflective prompt when clicked.
+   * Stoic reflection journal
+   * Responses and completed practices stay on this device via localStorage.
    */
   const exercisePrompts = [
     'Morning Reflection: List three things you can control today and commit to focusing only on them.',
@@ -596,16 +925,98 @@ window.addEventListener('DOMContentLoaded', () => {
     'Mindful Breathing: Close your eyes and follow your breath for two minutes. Observe thoughts as they come and go without judgment.'
   ];
 
+  const exerciseTitles = [
+    'Morning Reflection',
+    'Evening Review',
+    'Premeditatio Malorum',
+    'Sympatheia',
+    'Virtue Focus',
+    'Negative Visualization',
+    'Gratitude Journal',
+    'Mindful Breathing'
+  ];
+  const journalResponse = document.getElementById('journal-response');
+  const journalPrompt = document.getElementById('journal-prompt');
+  const journalTitle = document.getElementById('journal-title');
+  const journalNumber = document.getElementById('journal-number');
+  const journalStatus = document.getElementById('journal-status');
+  const completeExercise = document.getElementById('complete-exercise');
+  const progressLabel = document.getElementById('exercise-progress-label');
+  const progressBar = document.getElementById('exercise-progress-bar');
+  const dashboardProgress = document.getElementById('dashboard-progress');
+  let selectedExercise = 0;
+  let journalData = {};
+  let completedExercises = [];
+
+  try {
+    journalData = JSON.parse(localStorage.getItem('stoicJournal') || '{}');
+    completedExercises = JSON.parse(localStorage.getItem('stoicCompletedExercises') || '[]');
+  } catch (error) {
+    journalStatus.textContent = 'Your browser is not allowing local saving.';
+  }
+
+  function saveJournal() {
+    try {
+      localStorage.setItem('stoicJournal', JSON.stringify(journalData));
+      localStorage.setItem('stoicCompletedExercises', JSON.stringify(completedExercises));
+    } catch (error) {
+      journalStatus.textContent = 'Your browser is not allowing local saving.';
+    }
+  }
+
+  function updateExerciseProgress() {
+    const percent = Math.round((completedExercises.length / exercisePrompts.length) * 100);
+    progressLabel.textContent = `${completedExercises.length} of ${exercisePrompts.length} practices complete`;
+    progressBar.style.width = `${percent}%`;
+    dashboardProgress.textContent = `${percent}%`;
+    document.querySelectorAll('.exercise-card').forEach(card => {
+      const index = parseInt(card.dataset.index);
+      card.classList.toggle('completed', completedExercises.includes(index));
+    });
+  }
+
+  function selectExercise(index) {
+    selectedExercise = index;
+    document.querySelectorAll('.exercise-card').forEach(card => {
+      card.classList.toggle('selected', parseInt(card.dataset.index) === index);
+    });
+    journalNumber.textContent = `Practice ${index + 1}`;
+    journalTitle.textContent = exerciseTitles[index];
+    journalPrompt.textContent = exercisePrompts[index].replace(`${exerciseTitles[index]}: `, '');
+    journalResponse.value = journalData[index] || '';
+    completeExercise.textContent = completedExercises.includes(index) ? 'Completed ✓' : 'Mark complete';
+    journalStatus.textContent = journalData[index] ? 'Saved locally.' : 'Saved locally as you write.';
+  }
+
   document.querySelectorAll('.exercise-card').forEach(card => {
     const idx = parseInt(card.getAttribute('data-index'));
-    const backEl = card.querySelector('.back');
-    if (backEl && !isNaN(idx)) {
-      backEl.textContent = exercisePrompts[idx];
-    }
+    card.querySelector('.front').textContent = exerciseTitles[idx];
     card.addEventListener('click', () => {
-      card.classList.toggle('flipped');
+      selectExercise(idx);
     });
   });
+
+  journalResponse.addEventListener('input', () => {
+    journalData[selectedExercise] = journalResponse.value;
+    saveJournal();
+    journalStatus.textContent = 'Saved locally.';
+  });
+
+  completeExercise.addEventListener('click', () => {
+    if (completedExercises.includes(selectedExercise)) {
+      completedExercises = completedExercises.filter(index => index !== selectedExercise);
+      journalStatus.textContent = 'Practice marked incomplete.';
+    } else {
+      completedExercises.push(selectedExercise);
+      journalStatus.textContent = 'Practice complete. Nicely done.';
+    }
+    saveJournal();
+    updateExerciseProgress();
+    selectExercise(selectedExercise);
+  });
+
+  updateExerciseProgress();
+  selectExercise(0);
 
   /**
    * Stoic Word Scramble functionality
@@ -793,6 +1204,129 @@ window.addEventListener('DOMContentLoaded', () => {
     }
   };
 
+  const scenarioDecisions = {
+    insult: {
+      prompt: 'A colleague dismisses your idea in front of everyone. What do you do first?',
+      related: '#concepts',
+      choices: [
+        ['Correct them sharply before the moment passes.', 'Reacting immediately gives the insult control over your judgment. Pause before deciding whether correction serves a useful purpose.', 'Caution before assent'],
+        ['Pause, examine whether the criticism is useful, then respond calmly.', 'This separates the event from your judgment and leaves room for both improvement and self-respect.', 'Dichotomy of Control'],
+        ['Say nothing, but replay the insult for the rest of the day.', 'Silence can be wise, but rumination still hands your peace to something outside your control.', 'Guarding your judgments']
+      ]
+    },
+    loss: {
+      prompt: 'A valued possession is unexpectedly damaged beyond repair. Where do you place your attention?',
+      related: '#exercises',
+      choices: [
+        ['On blaming the person or circumstance responsible.', 'Blame may feel active, but it cannot restore the object and can pull your character away from justice.', 'Justice'],
+        ['On replacing it immediately so the discomfort disappears.', 'Replacing it may be reasonable, but first notice whether attachment is directing the decision.', 'Temperance'],
+        ['On what remains yours: your response, priorities, and conduct.', 'This recognizes the loss without confusing a possession with your ability to live well.', 'Dichotomy of Control']
+      ]
+    },
+    traffic: {
+      prompt: 'Traffic makes you late for an appointment. How do you use the delay?',
+      related: '#exercises',
+      choices: [
+        ['Use the time to breathe, notify others, and prepare your next action.', 'You cannot move the traffic, but you can still act responsibly and use the moment well.', 'Practical Wisdom'],
+        ['Keep checking the clock and imagining the consequences.', 'This adds imagined suffering to an event already outside your control.', 'Managing impressions'],
+        ['Drive aggressively whenever a gap appears.', 'Urgency does not make unsafe conduct virtuous. Outcomes never justify abandoning judgment.', 'Temperance']
+      ]
+    },
+    illness: {
+      prompt: 'Illness disrupts plans you cared about. What is the most useful first response?',
+      related: '#meditations',
+      choices: [
+        ['Acknowledge the disappointment and focus on wise care and conduct.', 'Stoicism does not deny pain. It asks what good judgment and courage look like within the new conditions.', 'Courage'],
+        ['Pretend the illness does not affect you.', 'Denial is not resilience. Clear judgment includes recognizing reality accurately.', 'Wisdom'],
+        ['Decide the entire period is wasted.', 'Your plans changed, but your capacity for patience, learning, and kindness remains.', 'Preferred indifferents']
+      ]
+    },
+    public: {
+      prompt: 'You are nervous before speaking to a group. What deserves your focus?',
+      related: '#concepts',
+      choices: [
+        ['Whether every person approves of you.', 'The audience’s opinion is outside your control and cannot be the measure of a good action.', 'Dichotomy of Control'],
+        ['Speaking truthfully, preparing well, and treating the audience with respect.', 'This directs attention toward your intentions and actions, where responsibility actually lies.', 'Virtue and responsibility'],
+        ['Finding a reason to avoid speaking.', 'Avoidance may reduce discomfort now while strengthening fear later.', 'Courage']
+      ]
+    },
+    failure: {
+      prompt: 'A project you worked hard on fails. What question do you ask?',
+      related: '#exercises',
+      choices: [
+        ['Who can I blame for the outcome?', 'Responsibility matters, but blame-first thinking often avoids the harder work of learning.', 'Justice'],
+        ['What can this teach me about my judgment, preparation, and next action?', 'A Stoic measures progress by the quality of response, not by demanding a particular outcome.', 'Practical Wisdom'],
+        ['How can I make sure nobody knows?', 'Protecting reputation at the expense of honesty trades character for an external.', 'Integrity']
+      ]
+    },
+    conflict: {
+      prompt: 'A family disagreement becomes heated. What helps most?',
+      related: '#virtues',
+      choices: [
+        ['Win the argument before anyone interrupts.', 'Winning is an external outcome. Justice requires listening and responding to the actual person before you.', 'Justice'],
+        ['Remember that everyone is acting from their own impressions, then respond deliberately.', 'Understanding does not require agreement. It creates room for firm but humane action.', 'Sympatheia'],
+        ['Withdraw permanently without explanation.', 'Distance can sometimes be wise, but avoidance alone does not resolve your own judgments or duties.', 'Courage and justice']
+      ]
+    },
+    success: {
+      prompt: 'You receive unexpected praise and recognition. How do you hold it?',
+      related: '#virtues',
+      choices: [
+        ['Enjoy it gratefully without making it the measure of your worth.', 'Recognition is pleasant but external. Gratitude and modesty keep it in proportion.', 'Temperance'],
+        ['Use it as proof that you are better than others.', 'Status invites comparison and can quickly pull judgment away from justice and humility.', 'Justice'],
+        ['Reject all praise as meaningless.', 'Stoicism does not require refusing pleasant externals, only refusing to depend on them.', 'Preferred indifferents']
+      ]
+    }
+  };
+
+  const scenarioKeys = Object.keys(scenarioDecisions);
+  let activeScenarioIndex = 0;
+  const scenarioGameTitle = document.getElementById('scenario-game-title');
+  const scenarioGamePrompt = document.getElementById('scenario-game-prompt');
+  const scenarioChoices = document.getElementById('scenario-choices');
+  const scenarioFeedback = document.getElementById('scenario-feedback');
+
+  function renderScenarioGame(key) {
+    activeScenarioIndex = scenarioKeys.indexOf(key);
+    const scenario = scenarioDecisions[key];
+    document.getElementById('scenario-game-label').textContent = `Decision ${activeScenarioIndex + 1} of ${scenarioKeys.length}`;
+    scenarioGameTitle.textContent = scenarioDetails[key].title;
+    scenarioGamePrompt.textContent = scenario.prompt;
+    scenarioChoices.innerHTML = scenario.choices.map((choice, index) => `
+      <button type="button" data-scenario-choice="${index}">${choice[0]}</button>
+    `).join('');
+    scenarioFeedback.classList.add('hidden');
+    document.querySelectorAll('.scenario-item').forEach(item => {
+      item.classList.toggle('selected', item.dataset.scenario === key);
+    });
+  }
+
+  scenarioChoices.addEventListener('click', event => {
+    const button = event.target.closest('[data-scenario-choice]');
+    if (!button) return;
+    const key = scenarioKeys[activeScenarioIndex];
+    const choice = scenarioDecisions[key].choices[parseInt(button.dataset.scenarioChoice)];
+    document.getElementById('scenario-principle').textContent = choice[2];
+    document.getElementById('scenario-feedback-title').textContent = 'A Stoic perspective';
+    document.getElementById('scenario-feedback-text').textContent = choice[1];
+    document.getElementById('scenario-related-link').href = scenarioDecisions[key].related;
+    scenarioFeedback.classList.remove('hidden');
+    scenarioChoices.querySelectorAll('button').forEach(item => item.disabled = true);
+  });
+
+  document.getElementById('next-scenario').addEventListener('click', () => {
+    renderScenarioGame(scenarioKeys[(activeScenarioIndex + 1) % scenarioKeys.length]);
+  });
+
+  document.querySelectorAll('.scenario-item').forEach(item => {
+    item.addEventListener('click', event => {
+      event.stopImmediatePropagation();
+      renderScenarioGame(item.dataset.scenario);
+      document.getElementById('scenario-game').scrollIntoView({ behavior: 'smooth', block: 'center' });
+    });
+  });
+  renderScenarioGame(scenarioKeys[0]);
+
   /**
    * Influences and legacy entries
    * Thinkers who inspired Stoicism or were influenced by it
@@ -976,6 +1510,38 @@ window.addEventListener('DOMContentLoaded', () => {
       });
     }
   }
+
+  // Contextual recommendations turn each section into a useful next step.
+  const relatedContent = {
+    'what-is-stoicism': [['#virtues', 'Meet the four virtues'], ['#lessons', 'Take a mini lesson'], ['#courses', 'Follow a short course']],
+    virtues: [['#dilemmas', 'Use virtue in a decision'], ['#exercises', 'Choose a virtue practice'], ['#concepts', 'Explore key concepts']],
+    philosophers: [['#map', 'Visit Stoic places'], ['#library', 'Read their wisdom'], ['#influences', 'Trace the legacy']],
+    'historical-journey': [['#philosophers', 'Meet the philosophers'], ['#map', 'Explore the map'], ['#library', 'Read their words']],
+    'stoicism-in-art': [['#historical-journey', 'Follow the historical journey'], ['#philosophers', 'Meet the figures'], ['#meditations', 'Read Marcus Aurelius']],
+    meditations: [['#exercises', 'Reflect in your journal'], ['#dilemmas', 'Apply it to a decision'], ['#library', 'Read another voice']],
+    activities: [['#scramble', 'Try the word scramble'], ['#scavenger', 'Begin the scavenger hunt'], ['#courses', 'Start a guided course']],
+    library: [['#meditations', 'Read Marcus Aurelius'], ['#philosophers', 'Meet the philosophers'], ['#exercises', 'Write about a quote']],
+    map: [['#philosophers', 'Meet the people'], ['#influences', 'Trace their influence'], ['#courses', 'Follow the quick course']],
+    scavenger: [['#activities', 'Play another game'], ['#concepts', 'Review the concepts'], ['#courses', 'Try guided learning']],
+    exercises: [['#daily-practice', 'Return to today’s practice'], ['#dilemmas', 'Test your judgment'], ['#meditations', 'Read a meditation']],
+    scramble: [['#concepts', 'Learn the words'], ['#activities', 'Try the quiz'], ['#lessons', 'Take a mini lesson']],
+    dilemmas: [['#virtues', 'Review the virtues'], ['#concepts', 'Explore the principles'], ['#exercises', 'Journal your response']],
+    influences: [['#philosophers', 'Meet the Stoics'], ['#lessons', 'Explore origins'], ['#map', 'Visit the places']],
+    concepts: [['#dilemmas', 'Apply a concept'], ['#lessons', 'Go deeper'], ['#courses', 'Follow Understanding Control']],
+    lessons: [['#courses', 'Choose a guided course'], ['#concepts', 'Review vocabulary'], ['#exercises', 'Put it into practice']]
+  };
+
+  Object.entries(relatedContent).forEach(([sectionId, links]) => {
+    const section = document.getElementById(sectionId);
+    if (!section) return;
+    const rail = document.createElement('aside');
+    rail.className = 'related-rail';
+    rail.innerHTML = `
+      <span>Continue exploring</span>
+      <div>${links.map(([href, label]) => `<a href="${href}">${label} →</a>`).join('')}</div>
+    `;
+    section.appendChild(rail);
+  });
 
   // Close bio modal when clicking × button (using existing close-modal class handler)
 });

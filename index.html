@@ -14,12 +14,20 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
+    <a class="skip-link" href="#what-is-stoicism">Skip to main content</a>
     <header>
       <div class="logo-and-title">
         <img src="images/stoicism-poster.png" alt="Stoicism poster" class="poster-thumbnail" />
-        <h1>Stoic Explorium</h1>
+        <div>
+          <h1>Stoic Explorium</h1>
+          <p class="site-tagline">Learn it. Try it. Live it.</p>
+        </div>
       </div>
-      <nav>
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-navigation">
+        <span class="menu-toggle-label">Explore</span>
+        <span class="menu-toggle-icon" aria-hidden="true"></span>
+      </button>
+      <nav id="site-navigation" aria-label="Explore Stoic Explorium">
         <ul>
           <li><a href="#what-is-stoicism">What is Stoicism?</a></li>
           <li><a href="#virtues">Virtues</a></li>
@@ -42,12 +50,113 @@
     <main>
       <!-- Hero Section -->
       <section id="hero" class="hero">
-        <!-- Updated hero: display the new header image supplied by the user. This replaces the old CTA and translucent banner. -->
         <img src="images/new-header.png" alt="Stoic landscape header" class="hero-image" />
+        <div class="hero-panel">
+          <p class="hero-kicker">An interactive introduction to an ancient philosophy</p>
+          <h2>Build a steadier mind for everyday life.</h2>
+          <p>
+            Explore the thinkers, ideas, and practical exercises that make
+            Stoicism a philosophy to use, not just study.
+          </p>
+          <div class="hero-actions">
+            <a class="cta-button" href="#start-here">Choose your path</a>
+            <a class="secondary-button" href="#exercises">Try an exercise</a>
+          </div>
+        </div>
+      </section>
+
+      <section id="start-here" class="section start-here">
+        <div class="section-heading-row">
+          <div>
+            <h2>Choose Your Path</h2>
+            <p>Follow a path or wander freely. Your progress is saved on this device.</p>
+          </div>
+          <div class="progress-orbit" aria-label="Exercise progress">
+            <strong id="dashboard-progress">0%</strong>
+            <span>practised</span>
+          </div>
+        </div>
+        <div class="path-grid">
+          <a class="path-card path-learn" href="#what-is-stoicism">
+            <span class="path-number">01</span><h3>Learn</h3>
+            <p>Start with the big ideas, philosophers, virtues, and vocabulary.</p>
+            <strong>Begin with the foundations →</strong>
+          </a>
+          <a class="path-card path-practice" href="#daily-practice">
+            <span class="path-number">02</span><h3>Practice</h3>
+            <p>Turn Stoic ideas into reflection, judgment, and daily action.</p>
+            <strong>Open today’s practice →</strong>
+          </a>
+          <a class="path-card path-play" href="#activities">
+            <span class="path-number">03</span><h3>Play</h3>
+            <p>Test your knowledge through quizzes, puzzles, and challenges.</p>
+            <strong>Choose an activity →</strong>
+          </a>
+        </div>
+      </section>
+
+      <section id="courses" class="section courses" data-category="learn">
+        <div class="section-heading-row">
+          <div>
+            <p class="section-label">Guided Learning</p>
+            <h2>Short Courses</h2>
+            <p>Follow a focused sequence through the best parts of the Explorium.</p>
+          </div>
+          <div class="course-summary">
+            <strong id="course-progress-summary">0 lessons completed</strong>
+            <span>Progress is saved on this device.</span>
+          </div>
+        </div>
+        <div id="course-grid" class="course-grid"></div>
+        <div id="course-workspace" class="course-workspace hidden">
+          <div class="course-workspace-head">
+            <div>
+              <span id="course-step-label"></span>
+              <h3 id="course-workspace-title"></h3>
+            </div>
+            <button id="close-course" class="course-close" type="button" aria-label="Close course">×</button>
+          </div>
+          <p id="course-workspace-description"></p>
+          <div id="course-step-list" class="course-step-list"></div>
+        </div>
+      </section>
+
+      <section id="daily-practice" class="section daily-practice">
+        <div class="daily-copy">
+          <p class="section-label">Today’s Stoic Practice</p>
+          <h2>A small pause can change the whole day.</h2>
+          <blockquote id="daily-quote"></blockquote>
+          <a class="cta-button" href="#exercises">Write a reflection</a>
+        </div>
+        <div class="daily-prompt">
+          <span>Today’s question</span>
+          <h3 id="daily-question"></h3>
+          <p>Take one honest minute. The aim is attention, not perfection.</p>
+        </div>
+      </section>
+
+      <section id="explore" class="section discovery">
+        <div class="section-heading-row">
+          <div>
+            <h2>Explore the Collection</h2>
+            <p>Find a topic by interest instead of scrolling through the entire site.</p>
+          </div>
+          <label class="search-box">
+            <span class="sr-only">Search sections</span>
+            <input id="section-search" type="search" placeholder="Search topics…" />
+          </label>
+        </div>
+        <div class="filter-buttons" aria-label="Filter topics">
+          <button class="filter-button active" type="button" data-filter="all">All</button>
+          <button class="filter-button" type="button" data-filter="learn">Learn</button>
+          <button class="filter-button" type="button" data-filter="practice">Practice</button>
+          <button class="filter-button" type="button" data-filter="play">Play</button>
+        </div>
+        <div id="discovery-results" class="discovery-results"></div>
       </section>
 
       <!-- What is Stoicism? -->
-      <section id="what-is-stoicism" class="section">
+      <section id="what-is-stoicism" class="section" data-category="learn">
         <h2>What is Stoicism?</h2>
         <p>
           Stoicism is an ancient Greek philosophy that teaches us to live in
@@ -114,7 +223,7 @@
       </section>
 
       <!-- Virtues Section -->
-      <section id="virtues" class="section light">
+      <section id="virtues" class="section light" data-category="learn">
         <h2>The Four Cardinal Virtues</h2>
         <p>
           Stoic ethics teaches that wisdom, justice, courage and moderation are
@@ -145,8 +254,96 @@
         </div>
       </section>
 
+      <section id="historical-journey" class="section historical-journey" data-category="learn">
+        <div class="section-heading-row">
+          <div>
+            <p class="section-label">A Philosophy on the Move</p>
+            <h2>From Painted Porch to Emperor’s Camp</h2>
+            <p>Stoicism changed as it travelled from Greek public debate into Roman classrooms, households, and political life.</p>
+          </div>
+        </div>
+        <figure class="journey-figure">
+          <img src="images/stoic-journey.jpg" width="1915" height="821" alt="Illustrated historical scenes of Zeno teaching in Athens, Epictetus teaching in Nicopolis, and Marcus Aurelius writing in a military camp" loading="lazy" />
+          <figcaption>Three settings, one enduring question: how should a person live?</figcaption>
+        </figure>
+        <div class="journey-stories">
+          <article>
+            <span>c. 300 BCE · Athens</span>
+            <h3>The Painted Porch</h3>
+            <p>Zeno taught in a public colonnade called the Stoa Poikile. The school took its name from this ordinary gathering place rather than from its founder.</p>
+          </article>
+          <article>
+            <span>c. 100 CE · Nicopolis</span>
+            <h3>A School of Freedom</h3>
+            <p>Epictetus taught that freedom begins with the use of judgment. His students trained not merely to discuss philosophy, but to live it.</p>
+          </article>
+          <article>
+            <span>c. 170 CE · Danube Frontier</span>
+            <h3>Philosophy Under Pressure</h3>
+            <p>Marcus Aurelius wrote private reminders during military campaigns, testing Stoic ideas amid fatigue, illness, conflict, and responsibility.</p>
+          </article>
+        </div>
+      </section>
+
+      <section id="stoicism-in-art" class="section art-gallery-section" data-category="learn">
+        <div class="section-heading-row">
+          <div>
+            <p class="section-label">Public-Domain Gallery</p>
+            <h2>Stoicism in Art</h2>
+            <p>Centuries after the ancient Stoics lived, artists continued to imagine their composure, sacrifice, duty, and moral seriousness.</p>
+          </div>
+        </div>
+        <div class="art-gallery">
+          <article class="art-card art-card-wide" data-art-index="0" tabindex="0" role="button">
+            <img src="images/art/death-of-socrates.jpg" width="1600" height="1051" alt="The Death of Socrates by Jacques-Louis David" loading="lazy" />
+            <div class="art-card-copy">
+              <span>1787 · Jacques-Louis David</span>
+              <h3>The Death of Socrates</h3>
+              <p>Socrates calmly reaches for the hemlock while continuing to teach. His example deeply shaped the Stoic ideal of choosing integrity over fear.</p>
+            </div>
+          </article>
+          <article class="art-card" data-art-index="1" tabindex="0" role="button">
+            <img src="images/art/death-of-seneca-honthorst.jpg" width="1600" height="1274" alt="The Death of Seneca by Gerrit van Honthorst" loading="lazy" />
+            <div class="art-card-copy">
+              <span>c. 1625 · Gerrit van Honthorst</span>
+              <h3>The Death of Seneca</h3>
+              <p>Seneca’s final hours became a recurring subject for artists exploring dignity under political tyranny.</p>
+            </div>
+          </article>
+          <article class="art-card" data-art-index="2" tabindex="0" role="button">
+            <img src="images/art/last-words-marcus-aurelius.jpg" width="1600" height="1251" alt="Last Words of the Emperor Marcus Aurelius by Eugène Delacroix" loading="lazy" />
+            <div class="art-card-copy">
+              <span>1844 · Eugène Delacroix</span>
+              <h3>Last Words of Marcus Aurelius</h3>
+              <p>The philosopher-emperor gives final counsel while Commodus turns away, contrasting responsibility with appetite.</p>
+            </div>
+          </article>
+          <article class="art-card art-card-portrait" data-art-index="3" tabindex="0" role="button">
+            <img src="images/art/zeno-stanley.jpg" width="1107" height="1600" alt="Engraved portrait of Zeno of Citium from Thomas Stanley's History of Philosophy" loading="lazy" />
+            <div class="art-card-copy">
+              <span>1655 · Thomas Stanley’s History of Philosophy</span>
+              <h3>Zeno of Citium</h3>
+              <p>This later engraving shows how the founder of Stoicism entered Europe’s visual history as a model of ancient wisdom.</p>
+            </div>
+          </article>
+        </div>
+        <p class="art-rights-note">All displayed reproductions are marked public domain by their source collections. Select a work for a larger view and source details.</p>
+        <div id="art-modal" class="modal hidden">
+          <div class="modal-content art-modal-content">
+            <button class="close-modal">×</button>
+            <img id="art-modal-image" alt="" />
+            <div>
+              <span id="art-modal-meta"></span>
+              <h3 id="art-modal-title"></h3>
+              <p id="art-modal-text"></p>
+              <a id="art-modal-source" class="cta-button" href="#" target="_blank" rel="noopener">View public-domain source</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <!-- Philosophers Timeline Section -->
-      <section id="philosophers" class="section">
+      <section id="philosophers" class="section" data-category="learn">
         <h2>Philosophers &amp; History</h2>
         <p>
           Explore an interactive timeline of Stoicism’s founders and key figures.
@@ -206,7 +403,7 @@
       </div>
 
       <!-- Meditations Section -->
-      <section id="meditations" class="section light">
+      <section id="meditations" class="section light" data-category="practice">
         <h2>Marcus Aurelius’ Meditations</h2>
         <p>
           Below you’ll find randomly selected excerpts from Marcus Aurelius’
@@ -221,7 +418,7 @@
       </section>
 
       <!-- Activities Section -->
-      <section id="activities" class="section">
+      <section id="activities" class="section" data-category="play">
         <h2>Activities &amp; Games</h2>
         <p>Put Stoic principles into practice with these interactive activities.</p>
         <div class="activity-cards">
@@ -255,7 +452,7 @@
       </section>
 
       <!-- Stoic Library Section -->
-      <section id="library" class="section light">
+      <section id="library" class="section light" data-category="learn">
         <h2>The Stoic Library</h2>
         <p>Click on any scroll to reveal a nugget of wisdom from ancient Stoics.</p>
         <div class="library-grid">
@@ -300,9 +497,21 @@
       </section>
 
       <!-- Stoic Places Section -->
-      <section id="map" class="section">
+      <section id="map" class="section" data-category="learn">
         <h2>Stoic Places</h2>
         <p>Explore the geography of Stoicism—from the painted porch in Athens to the emperor’s camp.</p>
+        <div class="visual-map">
+          <img src="images/stoic-world-map.jpg" width="1672" height="941" alt="Illustrated map of the ancient Mediterranean showing the geographic spread of Stoicism" loading="lazy" />
+          <button class="map-marker marker-corduba" type="button" data-map-place="corduba">Corduba</button>
+          <button class="map-marker marker-rome" type="button" data-map-place="rome">Rome</button>
+          <button class="map-marker marker-carnuntum" type="button" data-map-place="carnuntum">Carnuntum</button>
+          <button class="map-marker marker-athens" type="button" data-map-place="athens">Athens</button>
+          <button class="map-marker marker-nicopolis" type="button" data-map-place="nicopolis">Nicopolis</button>
+          <button class="map-marker marker-rhodes" type="button" data-map-place="rhodes">Rhodes</button>
+          <button class="map-marker marker-citium" type="button" data-map-place="citium">Citium</button>
+          <button class="map-marker marker-alexandria" type="button" data-map-place="alexandria">Alexandria</button>
+        </div>
+        <p class="map-instruction">Select a map label or place card to read its story.</p>
         <div class="map-grid">
           <div class="place" data-place="athens">
             <h3>Athens</h3>
@@ -362,7 +571,7 @@
       </section>
 
       <!-- Stoic Scavenger Hunt Section -->
-      <section id="scavenger" class="section light">
+      <section id="scavenger" class="section light" data-category="play">
         <h2>Stoic Scavenger Hunt</h2>
         <p>Follow the clues below and type your answers to progress through the hunt. Each correct answer unlocks the next clue!</p>
         <div class="hunt-step" id="hunt-step-1">
@@ -402,9 +611,16 @@
       </section>
 
       <!-- Stoic Exercises Section -->
-      <section id="exercises" class="section">
-        <h2>Stoic Exercises</h2>
-        <p>Practise Stoicism daily with these reflective exercises. Click each card to flip it over and reveal a prompt.</p>
+      <section id="exercises" class="section" data-category="practice">
+        <h2>Stoic Reflection Journal</h2>
+        <p>Choose a practice, write an honest response, and mark it complete. Reflections are saved only in this browser.</p>
+        <div class="journal-progress">
+          <div>
+            <strong id="exercise-progress-label">0 of 8 practices complete</strong>
+            <span>Return whenever you need a steadier perspective.</span>
+          </div>
+          <div class="progress-track"><span id="exercise-progress-bar"></span></div>
+        </div>
         <div class="exercise-grid">
           <div class="exercise-card" data-index="0">
             <div class="front">Exercise 1</div>
@@ -439,10 +655,25 @@
             <div class="back"></div>
           </div>
         </div>
+        <div class="journal-workspace">
+          <div class="journal-prompt">
+            <span id="journal-number">Practice 1</span>
+            <h3 id="journal-title">Morning Reflection</h3>
+            <p id="journal-prompt"></p>
+          </div>
+          <div class="journal-entry">
+            <label for="journal-response">Your reflection</label>
+            <textarea id="journal-response" rows="7" placeholder="Write what comes to mind…"></textarea>
+            <div class="journal-actions">
+              <span id="journal-status" aria-live="polite">Saved locally as you write.</span>
+              <button id="complete-exercise" class="cta-button" type="button">Mark complete</button>
+            </div>
+          </div>
+        </div>
       </section>
 
       <!-- Stoic Word Scramble Section -->
-      <section id="scramble" class="section light">
+      <section id="scramble" class="section light" data-category="play">
         <h2>Stoic Word Scramble</h2>
         <p>Unscramble the Stoic concepts below. Correct answers will unlock the next word!</p>
         <div class="scramble-container">
@@ -484,10 +715,10 @@
       </section>
 
       <!-- Stoic Scenarios Section -->
-      <section id="dilemmas" class="section">
-        <h2>Stoic Scenarios</h2>
+      <section id="dilemmas" class="section" data-category="practice">
+        <h2>Stoic Decision Lab</h2>
         <p>
-          Life often throws challenges our way. Click on a scenario below to see how a Stoic might approach the situation with wisdom and composure.
+          Choose a situation, decide how you would respond, and see which Stoic principles your choice puts into practice.
         </p>
         <div class="scenario-grid">
           <div class="scenario-item" data-scenario="insult">
@@ -515,10 +746,27 @@
             <h3>Unexpected Success</h3>
           </div>
         </div>
+        <div id="scenario-game" class="scenario-game">
+          <div class="scenario-game-header">
+            <span id="scenario-game-label">Decision 1 of 8</span>
+            <h3 id="scenario-game-title"></h3>
+            <p id="scenario-game-prompt"></p>
+          </div>
+          <div id="scenario-choices" class="scenario-choices"></div>
+          <div id="scenario-feedback" class="scenario-feedback hidden" aria-live="polite">
+            <span id="scenario-principle"></span>
+            <h3 id="scenario-feedback-title"></h3>
+            <p id="scenario-feedback-text"></p>
+            <div class="scenario-feedback-actions">
+              <a id="scenario-related-link" class="secondary-button" href="#concepts">Explore the principle</a>
+              <button id="next-scenario" class="cta-button" type="button">Next decision</button>
+            </div>
+          </div>
+        </div>
       </section>
 
       <!-- Influences & Legacy Section -->
-      <section id="influences" class="section light">
+      <section id="influences" class="section light" data-category="learn">
         <h2>Influences &amp; Legacy</h2>
         <p>
           Stoicism didn’t arise in a vacuum. It drew inspiration from earlier thinkers and continues to inspire people today. Explore these influences and legacies.
@@ -543,7 +791,7 @@
       </section>
 
       <!-- Stoic Concepts Section -->
-      <section id="concepts" class="section">
+      <section id="concepts" class="section" data-category="learn">
         <h2>Stoic Concepts</h2>
         <p>Click on each concept to learn its meaning in Stoic philosophy.</p>
         <div class="concept-grid">
@@ -576,7 +824,7 @@
       </section>
 
       <!-- Stoic Mini Lessons Section -->
-      <section id="lessons" class="section light">
+      <section id="lessons" class="section light" data-category="learn">
         <h2>Mini Lessons</h2>
         <p>Explore these bite‑sized lessons to deepen your understanding of Stoic philosophy.</p>
         <div class="lesson-grid">
@@ -612,6 +860,7 @@
         await those who explore.
       </p>
     </footer>
+    <button class="back-to-top" type="button" aria-label="Back to top">↑</button>
 
     <script src="script.js"></script>
   </body>
